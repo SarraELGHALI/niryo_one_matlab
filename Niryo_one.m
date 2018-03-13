@@ -22,7 +22,7 @@ function varargout = Niryo_one(varargin)
 
 % Edit the above text to modify the response to help Niryo_one
 
-% Last Modified by GUIDE v2.5 13-Mar-2018 08:54:43
+% Last Modified by GUIDE v2.5 13-Mar-2018 14:30:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -312,7 +312,8 @@ global state1;
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (state1 == 0)
-    rosinit('192.168.43.49')
+    ipadress = get(handles.edit10,'String')
+    rosinit(ipadress)
     %pause(2);
     state1=1; 
 else 
@@ -320,3 +321,26 @@ else
 
 end 
  
+
+
+
+function edit10_Callback(hObject, eventdata, handles)
+% hObject    handle to edit10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit10 as text
+%        str2double(get(hObject,'String')) returns contents of edit10 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit10_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
