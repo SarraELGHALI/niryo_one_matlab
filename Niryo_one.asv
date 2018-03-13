@@ -315,8 +315,7 @@ if (state1 == 0)
     rosinit('192.168.43.49')
     %pause(2);
     state1=1; 
-else 
-     disp('.............you are already connected to your robot ...................')
-
+% else 
+%     print("you are already connected to a master")
 end 
  
