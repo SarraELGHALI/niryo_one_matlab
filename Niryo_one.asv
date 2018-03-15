@@ -244,7 +244,15 @@ global learning_mode_req
      learning_mode_req.Value=1;
      learning_mode_resp = call(learning_mode_client,learning_mode_req,'Timeout',3);
      set(handles.edit20,'string',learning_mode_resp.Message);
- end
+ end 
+ 
+     
+     
+    
+    
+    
+
+
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
@@ -253,11 +261,16 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in hardware status 
+% --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
+% hwmsg=rosmessage(hw_status)
+% pause(2)
 global hw_status;
- hw_status_msg=receive(hw_status,10); 
+ hw_status_msg=receive(hw_status,10);
  set(handles.edit12,'string', hw_status_msg.RpiTemperature);
  set(handles.edit13,'string', hw_status_msg.CalibrationNeeded);
  %set(handles.edit15,'logical', hw_status_msg.CalibrationInProgress);
@@ -333,16 +346,15 @@ global learning_mode_req ;
 if (connexion_state  == 0)
     Robot_ip_adress = get(handles.edit10,'String'); % get robot ip adress 
     Robot_ip_adress = strcat('http://',Robot_ip_adress,':11311');
-    Computer_ip_adress = get(handles.edit19,'String');% get computer ip adress
-    setenv('ROS_MASTER_URI',Robot_ip_adress); % set  ros matser URI to specifie the ros master location 
-    setenv('ROS_IP',Computer_ip_adress); % set environment variables ROS_IP( network address of a ROS Node ), It's must be ip adress of the pc where matlab is installed 
-    rosinit; % initialize ROS
+    Computer_ip_adress = get(handles.edit19,'String');% get computer r
+    setenv('ROS_MASTER_URI',Robot_ip_adress);
+    setenv('ROS_IP',Computer_ip_adress);
+    rosinit;
     %pause(2);
     connexion_state =1; 
-    hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic  
-    
-    learning_mode_client=rossvcclient('/niryo_one/activate_learning_mode');% create a ros service client for activate learning mode 
-    learning_mode_req = rosmessage(learning_mode_client); % create message for  learning_mode_client
+    hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for hardware statuts 
+    learning_mode_client=rossvcclient('/niryo_one/activate_learning_mode');
+    learning_mode_req = rosmessage(learning_mode_client); 
     pause(1);
 else 
      disp('.............you are already connected to your robot ...................')
