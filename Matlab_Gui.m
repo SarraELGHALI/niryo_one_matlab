@@ -1,4 +1,4 @@
- 
+
 function varargout = Matlab_Gui(varargin)
 % MATLAB_GUI MATLAB code for Matlab_Gui.fig
 %      MATLAB_GUI, by itself, creates a new MATLAB_GUI or raises the existing
@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 29-Mar-2018 14:12:38
+% Last Modified by GUIDE v2.5 29-Mar-2018 17:49:00
 
 % Begin initialization code - DO NOT EDIT
 
@@ -70,6 +70,7 @@ set(handles.connectionButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor'
 set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 set(handles.connectionPanel,'visible','on')
 set(handles.commandPanel,'visible','off')
 set(handles.hwPanel,'visible','off')
@@ -312,9 +313,14 @@ end
 
 
 % --- Executes on button press in moveButton.
-function moveButton_Callback(~, ~, handles)
+function moveButton_Callback(hObject, eventdata, handles)
 global connexion_state ; 
 global logs; 
+% global new_data;
+% global data ; 
+% global theor_trajectory;
+% global jointStateMsg;
+% global time; 
 if (connexion_state==0)
      logs=logs+newline+"you should connect to you robot first"; 
     return; 
@@ -341,6 +347,8 @@ pause(1)
 set(handles.edit56,'visible','off')
  logs=logs+ newline+ move_joint_sub_msg.Message ;
  set(handles.moveButton,'string','Move Joints ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+ plotButton_Callback(hObject, eventdata, handles)
+%trajectoryButton_Callback(hObject, eventdata, handles)
 end 
  
         
@@ -365,11 +373,13 @@ else
       disp(learning_mode_resp.Message);
        logs=logs+ newline+ learning_mode_resp.Message;
  end
+set(handles.edit56,'string',learning_mode_resp.Message,'visible','on')
+pause(1)
+set(handles.edit56,'visible','off')
 end 
 
 % --- Executes on button press in motorbutton.
 function motorbutton_Callback(~, ~, handles)
-%global new_calibration_resp ;
  global calibrate_motors_msg;
 global calibrate_motors_client;
 global logs; 
@@ -379,15 +389,18 @@ if connexion_state==0
    return; 
 else 
  motor_calibration_resp = call(calibrate_motors_client,calibrate_motors_msg);
- disp(new_calibration_resp.Message);
+ disp( motor_calibration_resp.Message);
  logs=logs+ newline + motor_calibration_resp.Message;
+ set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
+pause(1)
+set(handles.edit56,'visible','off')
 end 
 
  
 
 
 % --- Executes on button press in newCalibrationButton.
-function newCalibrationButton_Callback(hObject, eventdata, ~)
+function newCalibrationButton_Callback(hObject, eventdata,handles)
  global new_calibration ; 
 global new_calibration_msg ;
 global logs; 
@@ -397,8 +410,10 @@ if connexion_state==0
    return;
 else 
  new_calibration_resp = call(new_calibration,new_calibration_msg);
- disp('.......new calibration requested.........')
-
+ disp('.......new calibration requested.........');
+set(handles.edit56,'string',new_calibration_resp.Message,'visible','on')
+pause(1)
+set(handles.edit56,'visible','off')
  logs=logs+ newline+new_calibration_resp.Message;
  %disp(new_calibration_resp.Message)
 end 
@@ -412,10 +427,11 @@ global data ; %follow joint trajectory Goal message : thero trajectory
 global joint_position; % follow joint trajectory Goal position : thero trajectory 
 global connexion_state ;
 if connexion_state==0
+
 logs=logs+newline+"you should connect to you robot first"; 
    return;
 else 
-diff=CalculDiff(data,jointStateMsg)
+diff=CalculDiff(data,jointStateMsg,time)
 JointStatePosition=[jointStateMsg.Position];
 array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
 x=[array_time.Nsec]/10^9+[array_time.Sec];
@@ -424,36 +440,40 @@ switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
     case 'radiobutton7'
       %execute this code when fontsize08_radiobutton is selected
       axes(handles.axestheorique);
-      plot(x,joint_position(1,:));
-      axes(handles.axesreal);
-      plot(time,JointStatePosition(1,:),'--r');
+      plot(x,joint_position(1,:),'b',time,JointStatePosition(1,:),'--r');
+      xlabel('time')
+      ylabel('trajectory')
+      legend('theorical','real')
       axes(handles.axesdiff);
       plot(x,diff(1,:),'g');
       
     case 'radiobutton8'
       %execute this code when fontsize12_radiobutton is selected
        axes(handles.axestheorique);
-        plot(x,joint_position(2,:));
-        axes(handles.axesreal);
-      plot(time,JointStatePosition(2,:),'--r');
+        plot(x,joint_position(2,:),'b',time,JointStatePosition(2,:),'--r');
+         xlabel('time')
+      ylabel('trajectory')
+         legend('theorical','real')
       axes(handles.axesdiff);
         plot(x,diff(2,:),'g');
         
     case 'radiobutton9'
       %execute this
        axes(handles.axestheorique);
-        plot(x,joint_position(3,:));
-         axes(handles.axesreal);
-      plot(time,JointStatePosition(3,:),'--r');
-      axes(handles.axesdiff);
+        plot(x,joint_position(3,:),'b',time,JointStatePosition(3,:),'--r');
+         xlabel('time')
+      ylabel('trajectory')
+         legend('theorical','real');
+        axes(handles.axesdiff);
         plot(x,diff(3,:),'g');
        
 case 'radiobutton10'
       %execute this code when fontsize08_radiobutton is selected
       axes(handles.axestheorique);
-        plot(x,joint_position(4,:));
-         axes(handles.axesreal);
-      plot(time,JointStatePosition(4,:),'--r');
+        plot(x,joint_position(4,:),'b',time,JointStatePosition(4,:),'--r');
+         xlabel('time')
+      ylabel('trajectory')
+         legend('theorical','real');
       axes(handles.axesdiff);
         plot(x,diff(4,:),'g');
         
@@ -461,9 +481,10 @@ case 'radiobutton10'
     case 'radiobutton11'
       %execute this code when fontsize12_radiobutton is selected
        axes(handles.axestheorique);
-        plot(x,joint_position(5,:));
-         axes(handles.axesreal);
-      plot(time,JointStatePosition(5,:),'--r');
+        plot(x,joint_position(5,:),'b',time,JointStatePosition(5,:),'--r');
+         xlabel('time')
+      ylabel('trajectory')
+         legend('theorical','real')
       axes(handles.axesdiff);
         plot(x,diff(5,:),'g');
      
@@ -471,9 +492,10 @@ case 'radiobutton10'
     case 'radiobutton12'
       %execute this
        axes(handles.axestheorique);
-        plot(x,joint_position(6,:));
-         axes(handles.axesreal);
-      plot(time,JointStatePosition(6,:),'--r');
+        plot(x,joint_position(6,:),'b',time,JointStatePosition(6,:),'--r');
+         xlabel('time')
+      ylabel('trajectory')
+        legend('theorical','real')  
       axes(handles.axesdiff);
         plot(x,diff(6,:),'g')
    
@@ -483,7 +505,27 @@ case 'radiobutton10'
 end
 end 
 
-
+% --- Executes on button press in trajectoryButton.
+function trajectoryButton_Callback(hObject, eventdata, handles)
+global new_data;
+global data ; 
+global logs; 
+global theor_trajectory;
+global jointStateMsg;
+global time; 
+global connexion_state ;
+if connexion_state==0
+   logs=logs+newline+"you should connect to you robot first" 
+   return;
+else 
+set(handles.pushbutton26,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+ data=receive(theor_trajectory);
+logs= logs+newline+"get a new trajectory";
+[jointStateMsg,time]=JointState(handles,data);
+logs= logs+newline+"get real trajectory";
+set(handles.pushbutton26,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+new_data=1;
+end
 
 
 
@@ -509,8 +551,11 @@ logs= logs+newline+"get a new trajectory";
 logs= logs+newline+"get real trajectory";
 set(handles.pushbutton26,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
-end 
-function [fullFileName]=save_folder()
+end
+
+
+
+ function [fullFileName]=save_folder()
 startingFolder = userpath % Or "pwd" or wherever you want.
 defaultFileName = fullfile(startingFolder, '*.txt');
 [baseFileName, folder] = uiputfile(defaultFileName, 'Specify a file');
@@ -519,18 +564,14 @@ if baseFileName == 0
 	return;
 end
 fullFileName = fullfile(folder, baseFileName);
-  function export_logs(logs)
+  
+     
+function export_trajectory(time,jointStateMsg,data,joint_position)
 [fullFileName]=save_folder();
 fileId=fopen(fullFileName,'w');
-fprintf(fileId,'Applixation Logs\r\n') ;
-fprintf(fileId,'%s\r\n',logs);
-fprintf(fileId,'%s\r\n','--------------------------------------------');
-function export_real_trajectory(time,jointStateMsg)
-[fullFileName]=save_folder();
-fileId2=fopen(fullFileName,'w');
 time=time';
- fprintf(fileId2,'%s\r\n','trajectory data');
-fprintf(fileId2,'%s\r\n','--------------------------------------------') ;  
+ fprintf(fileId,'%s\r\n','----------------------real trajectory--------------------------------');
+fprintf(fileId,'%s\r\n','----------------------------------------------------------------------') ;  
 M=['temps',' joint 1',' joint 2 ',' joint 3',' joint 4',' joint 5 ',' joint 6'];
 JointStatePosition=[jointStateMsg.Position];
 j1=(JointStatePosition(1,:))';
@@ -542,25 +583,19 @@ j6=(JointStatePosition(6,:))';
 
 R=[time,j1,j2,j3,j4,j5,j6]
 % fprintf(fileId2,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f \r\n',R);
-fprintf(fileId2,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M); 
-fprintf(fileId2,'\r\n');
-fprintf(fileId2,'%s\r\n','--------------------------------------------');
-fprintf(fileId2,'\n');
+fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M); 
+fprintf(fileId,'\r\n');
+fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
+fprintf(fileId,'\n');
 for ii=1:size(R,1)
-    fprintf(fileId2,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',R(ii,:));
+    fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',R(ii,:));
 end 
- fclose(fileId2); 
- 
- function export_theoretical_trajectory(data,joint_position)
-    
+fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
 array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
 x=[array_time.Nsec]/10^9+[array_time.Sec];   
 temps=x';
-[fullFileName]=save_folder()
-fileId=fopen(fullFileName,'w');
-
-fprintf(fileId,'%s\r\n','trajectory data');
-fprintf(fileId,'%s\r\n','--------------------------------------------');
+fprintf(fileId,'%s\r\n','---------------------------------------theoretical trajectory-------------------------');
+fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
 joint1=(joint_position(1,:))';
 joint2=(joint_position(2,:))';
 joint3=(joint_position(3,:))';
@@ -573,25 +608,18 @@ T=[temps,joint1,joint2,joint3 ,joint4, joint5 ,joint6];
 %fprintf(fileId,'%2.4f\t %2.4f \t %2.4f\t %2.4f\t %2.4f\t %2.4f\n',T)  
 fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',Mo); 
 fprintf(fileId,'\r\n');
-fprintf(fileId,'%s\r\n','--------------------------------------------');
+fprintf(fileId,'%s\r\n','---------------------------------------------------------------------------------------');
 fprintf(fileId,'\n');
 for ii=1:size(T,1)
-    fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',T(ii,:));
+ fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',T(ii,:));
 end 
-fclose(fileId);
-        
-
-function export_difference_between_trajectory(data,jointStateMsg)
-  
- array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
+array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
 x=[array_time.Nsec]/10^9+[array_time.Sec];   
 temps=x';
-diff=CalculDiff(data,jointStateMsg) ;
-[fullFileName]=save_folder()
-fileId3=fopen(fullFileName,'w');
-
-fprintf(fileId3,'%s\r\n',' difference between real and theorical trajectory');
-fprintf(fileId3,'%s\r\n','--------------------------------------------');
+diff=CalculDiff(data,jointStateMsg,time') ;
+fprintf(fileId,'%s\r\n','----------------------------------------------------------------------------------------------------------------');
+fprintf(fileId,'%s\r\n','-------------------------------difference between real and theorical trajectory---------------------------------');
+fprintf(fileId,'%s\r\n','----------------------------------------------------------------------------------------------------------------');
 joint1=(diff(1,:))';
 joint2=(diff(2,:))';
 joint3=(diff(3,:))';
@@ -602,14 +630,19 @@ M3=['temps',' joint 1',' joint 2 ',' joint 3',' joint 4',' joint 5 ',' joint 6']
 Z=[temps,joint1,joint2,joint3 ,joint4, joint5 ,joint6];
 %fprintf(fileId,'temps \t  joint 1 \t joint 2  \t  joint 3  \t  joint 4 \t  joint 5 \t  joint 6 \n')
 %fprintf(fileId,'%2.4f\t %2.4f \t %2.4f\t %2.4f\t %2.4f\t %2.4f\n',T)  
-fprintf(fileId3,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M3); 
-fprintf(fileId3,'\r\n');
-fprintf(fileId3,'%s\r\n','--------------------------------------------');
-fprintf(fileId3,'\n');
+fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M3); 
+fprintf(fileId,'\r\n');
+fprintf(fileId,'%s\r\n','-----------------------------------------------------------------------------------------------------------------');
+fprintf(fileId,'\n');
 for ii=1:size(Z,1)
-    fprintf(fileId3,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',Z(ii,:));
+    fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',Z(ii,:));
 end 
-fclose(fileId3); 
+
+
+ fclose(fileId); 
+ 
+        
+ 
 
 
 % --- Executes export data to a file %%%%%%%%%%%%%%%%
@@ -630,13 +663,9 @@ if(new_data==0)&&(connexion_state==0)
     pause(1);
     set(handles.edit55,'visible','off') ;
 else
-  export_real_trajectory(time,jointStateMsg);
-  logs=logs+newline+"export real trajectory" ;
-  export_theoretical_trajectory(data,joint_position);
-   logs=logs+newline+"export theoretical trajectory" ;
-  export_difference_between_trajectory(data,jointStateMsg);
-   logs=logs+newline+"export difference between trajectory" ;
-  export_logs(logs);
+ export_trajectory(time,jointStateMsg,data,joint_position);
+  logs= logs + newline +"export trajectory " ;
+  
 set(handles.edit55,'string','data exported successfully','visible','on');
 pause(1);
 set(handles.edit55,'visible','off');
@@ -648,19 +677,19 @@ set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0
 
 function [jointStateMsg,time]=JointState(handles,data)
 
- theorTime=data.Header.Stamp.Sec+(data.Header.Stamp.Nsec)/10^9
+ theorTime=data.Header.Stamp.Sec+(data.Header.Stamp.Nsec)/10^9;
  A=[data.Goal.Trajectory.Points(:,1).Positions];
  k=size(A);
 
 jointState=rossubscriber('/joint_states');
 jointStateMsg=rosmessage(jointState);
 for i=1:k(2)
- jointStateMsg(i)=receive(jointState)
- time(i)=(jointStateMsg(i).Header.Stamp.Sec+(jointStateMsg(i).Header.Stamp.Nsec)/10^9)-theorTime
+ jointStateMsg(i)=receive(jointState);
+ time(i)=(jointStateMsg(i).Header.Stamp.Sec+(jointStateMsg(i).Header.Stamp.Nsec)/10^9)-theorTime;
  
 end
 for i=1:k(2)
-    time(i)=time(i)-time(1)
+    time(i)=time(i)-time(1);
 end
 
 
@@ -668,16 +697,21 @@ end
  
 
  
-function [diff]=CalculDiff(data,jointStateMsg)
+function [diff]=CalculDiff(data,jointStateMsg,time)
 %global data; 
 %global jointStateMsg;
+array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
+time_theor=[array_time.Nsec]/10^9+[array_time.Sec];
 A=[data.Goal.Trajectory.Points(:,1).Positions];
 B=[jointStateMsg(1,:).Position];
 k=size(A);
 
 for i=1:6
 for j=1:k(2)
- diff(i,j)=A(i,j)-B(i,j);
+    X = interp1(time,B(i,:),time_theor(j));
+ 
+ diff(i,j)=abs(A(i,j)-X);
+ 
 end 
 end
  
@@ -1047,3 +1081,6 @@ function commandPanel_CreateFcn(hObject, eventdata, handles)
 function edit1_Callback(hObject, eventdata, handles)    
         
  function editlogs_Callback(hObject, eventdata, handles)  
+
+
+
