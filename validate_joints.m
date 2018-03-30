@@ -1,6 +1,6 @@
 function [validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles,Learning_mode_state,logs) 
     
-        joint1=str2double(get(handles.joint1,'String'));
+     joint1=str2double(get(handles.joint1,'String'));
 joint2=str2double(get(handles.joint2,'String'));
 joint3=str2double(get(handles.joint3,'String'));
 joint4=str2double(get(handles.joint4,'String'));

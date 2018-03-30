@@ -238,17 +238,24 @@ if (connexion_state  == 0)
     Computer_ip_adress = get(handles.edit2,'String');% get computer ip adress
     setenv('ROS_MASTER_URI',Robot_ip_adress); % set  ros matser URI to specifie the ros master location 
     setenv('ROS_IP',Computer_ip_adress); % set environment variables ROS_IP( network address of a ROS Node ), It's must be ip adress of the pc where matlab is installed 
-
+try
     rosinit; % initialize ROS
-    
+catch e
+    logs= e.message
+    set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    return; 
+end 
   
     %pause(2);
     logs="connected to niryo one";
     % hardware status
-    
+        try 
         hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic
-   
-    
+        catch e 
+            logs= e.message
+            roshutdown
+            return; 
+        end 
     
     % learning mode 
    
@@ -580,12 +587,20 @@ global time;
 global jointStateMsg;
 global connexion_state; 
 set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
-if(new_data==0)&&(connexion_state==0) 
+if((new_data==0)&&(connexion_state==0) )
     set(handles.edit55,'string','try to get a new trajectory command ','visible','on');
     pause(1);
     set(handles.edit55,'visible','off') ;
+    set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 else
+    try 
  export_trajectory(time,jointStateMsg,data,joint_position);
+    catch e 
+        logs= logs+ newline + "you should specify file name , try again";
+        set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+        return; 
+    end 
+        
   logs= logs + newline +"export trajectory " ;
   
 set(handles.edit55,'string','data exported successfully','visible','on');
