@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 30-Mar-2018 12:10:15
+% Last Modified by GUIDE v2.5 30-Mar-2018 16:30:20
 
 % Begin initialization code - DO NOT EDIT
 
@@ -96,7 +96,6 @@ axes(handles.axes1);
 imshow('logo.png');
 axes(handles.axes2);
 imshow('Matlab_Logo.png');
-
 
 % --- Executes on button press in connectionButton.
 function connectionButton_Callback(~, ~, handles)
@@ -245,7 +244,6 @@ if (connexion_state  == 0)
   
     %pause(2);
     logs="connected to niryo one";
-    connexion_state =1; 
     % hardware status
     
         hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic
@@ -317,86 +315,21 @@ end
 
 
 
- function [validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles) 
-     global logs; 
-     global Learning_mode_state; 
-        joint1=str2double(get(handles.joint1,'String'));
-joint2=str2double(get(handles.joint2,'String'));
-joint3=str2double(get(handles.joint3,'String'));
-joint4=str2double(get(handles.joint4,'String'));
-joint5=str2double(get(handles.joint5,'String'));
-joint5=str2double(get(handles.joint5,'String'));
-joint6=str2double(get(handles.joint6,'String'));
-validation=0;
-Learning_mode_state_msg=receive( Learning_mode_state); 
-if (Learning_mode_state_msg.Data==1)
-    set(handles.edit56,'string','you need to desactivate Learning Mode','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(1);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return ; 
-elseif (joint1>3.054)||(joint1<-3.054)
-    set(handles.joint1,'string',0); 
-    set(handles.edit56,'string','joint 1 not in range(-3.054,3.054)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(1);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return;
-elseif(joint1>0.628319)||(joint1<-1.5707)
-    set(handles.joint2,'string',0); 
-    set(handles.edit56,'string','joint 2 not in range(-1.5707,0.628319)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(1);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return;
-elseif (joint3>0.994838)||(joint3<-1.4101)
-    set(handles.joint3,'string',0); 
-    set(handles.edit56,'string','joint 3 not in range(-1.4101,0.994838)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(1);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return;
-
-elseif(joint4>2.61799)||(joint4<-2.61799)
-    set(handles.joint4,'string',0); 
-    set(handles.edit56,'string','joint 4not in range(-2.61799,2.61799)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(0.5);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return;
-
-
-elseif(joint5>2.26893)||(joint5<-2.26893)
-    set(handles.joint5,'string',0); 
-    set(handles.edit56,'string','joint 5 not in range(-2.26893,2.26893)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(0.5);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-     return;
-
-
-elseif (joint6>2.57)||(joint6<-2.57)
-    set(handles.joint6,'string',0); 
-    set(handles.edit56,'string','joint 6 not in range(-2.57,2.57)','visible','on','BackgroundColor','red','ForegroundColor','white')
-    pause(0.5);
-    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-   return;
-else disp("joints in range") ;
-  logs=logs+newline+"Joints in range";
- validation=1; 
-end
+ 
 
 
 % --- Executes on button press in moveButton.
 function moveButton_Callback(hObject, eventdata, handles)
 global connexion_state ; 
-global logs;  
+global logs; 
+global Learning_mode_state;
+
 if (connexion_state==0)
      logs=logs+newline+"you should connect to you robot first"; 
     return; 
 else 
-[validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles) ;
+[validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles,Learning_mode_state,logs) ;
+
 if validation==0
     return ; 
 else 
@@ -491,8 +424,8 @@ set(handles.edit56,'visible','off')
 end 
     
   % choose joint graph %%%%%%%%%%%%%%%%%%%%%%%%%%שששש  
-% --- Executes when selected object is changed in uibuttongroup3.
-function uibuttongroup3_SelectionChangedFcn(hObject, eventdata, handles)
+
+function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
 global time; 
 global jointStateMsg; % joint State Message : real trajectory 
 global data ; %follow joint trajectory Goal message : thero trajectory 
@@ -577,7 +510,8 @@ case 'radiobutton10'
 end
 end 
 
-% --- Executes on button press in trajectoryButton.
+% --- Executes on button press in trajectoryButton. 
+% on plot Panel 
 function trajectoryButton_Callback(hObject, eventdata, handles)
 global new_data;
 global data ; 
@@ -604,7 +538,8 @@ end
 
 
 % --- Executes get trajectory 
-function pushbutton26_Callback(hObject, eventdata, handles)
+% On command Panel 
+function getTrajectoryButton_Callback(hObject, eventdata, handles)
 global new_data;
 global data ; 
 global logs; 
@@ -617,108 +552,19 @@ if connexion_state==0
    return;
 else 
  
-set(handles.pushbutton26,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+set(handles.getTrajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
  data=receive(theor_trajectory)
   
     
 logs= logs+newline+"get theoretical trajectory ";
 [jointStateMsg,time]=JointState(handles,data);
 logs= logs+newline+" get real trajectory ";
-set(handles.pushbutton26,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
  
 end
 
 
-
- function [fullFileName]=save_folder()
-startingFolder = userpath % Or "pwd" or wherever you want.
-defaultFileName = fullfile(startingFolder, '*.txt');
-[baseFileName, folder] = uiputfile(defaultFileName, 'Specify a file');
-if baseFileName == 0
-	% User clicked the Cancel button.
-	return;
-end
-fullFileName = fullfile(folder, baseFileName);
-  
-     
-function export_trajectory(time,jointStateMsg,data,joint_position)
-[fullFileName]=save_folder();
-fileId=fopen(fullFileName,'w');
-time=time';
- fprintf(fileId,'%s\r\n','----------------------real trajectory--------------------------------');
-fprintf(fileId,'%s\r\n','----------------------------------------------------------------------') ;  
-M=['temps',' joint 1',' joint 2 ',' joint 3',' joint 4',' joint 5 ',' joint 6'];
-JointStatePosition=[jointStateMsg.Position];
-j1=(JointStatePosition(1,:))';
-j2=(JointStatePosition(2,:))';
-j3=(JointStatePosition(3,:))';
-j4=(JointStatePosition(4,:))';
-j5=(JointStatePosition(5,:))';
-j6=(JointStatePosition(6,:))';
-
-R=[time,j1,j2,j3,j4,j5,j6]
-% fprintf(fileId2,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f \r\n',R);
-fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M); 
-fprintf(fileId,'\r\n');
-fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
-fprintf(fileId,'\n');
-for ii=1:size(R,1)
-    fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',R(ii,:));
-end 
-fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
-array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
-x=[array_time.Nsec]/10^9+[array_time.Sec];   
-temps=x';
-fprintf(fileId,'%s\r\n','---------------------------------------theoretical trajectory-------------------------');
-fprintf(fileId,'%s\r\n','--------------------------------------------------------------------------------------');
-joint1=(joint_position(1,:))';
-joint2=(joint_position(2,:))';
-joint3=(joint_position(3,:))';
-joint4=(joint_position(4,:))';
-joint5=(joint_position(5,:))';
-joint6=(joint_position(6,:))';
-Mo=['temps',' joint 1',' joint 2 ',' joint 3',' joint 4',' joint 5 ',' joint 6'];
-T=[temps,joint1,joint2,joint3 ,joint4, joint5 ,joint6];
-%fprintf(fileId,'temps \t  joint 1 \t joint 2  \t  joint 3  \t  joint 4 \t  joint 5 \t  joint 6 \n')
-%fprintf(fileId,'%2.4f\t %2.4f \t %2.4f\t %2.4f\t %2.4f\t %2.4f\n',T)  
-fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',Mo); 
-fprintf(fileId,'\r\n');
-fprintf(fileId,'%s\r\n','---------------------------------------------------------------------------------------');
-fprintf(fileId,'\n');
-for ii=1:size(T,1)
- fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',T(ii,:));
-end 
-array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
-x=[array_time.Nsec]/10^9+[array_time.Sec];   
-temps=x';
-diff=CalculDiff(data,jointStateMsg,time') ;
-fprintf(fileId,'%s\r\n','----------------------------------------------------------------------------------------------------------------');
-fprintf(fileId,'%s\r\n','-------------------------------difference between real and theorical trajectory---------------------------------');
-fprintf(fileId,'%s\r\n','----------------------------------------------------------------------------------------------------------------');
-joint1=(diff(1,:))';
-joint2=(diff(2,:))';
-joint3=(diff(3,:))';
-joint4=(diff(4,:))';
-joint5=(diff(5,:))';
-joint6=(diff(6,:))';
-M3=['temps',' joint 1',' joint 2 ',' joint 3',' joint 4',' joint 5 ',' joint 6'];
-Z=[temps,joint1,joint2,joint3 ,joint4, joint5 ,joint6];
-%fprintf(fileId,'temps \t  joint 1 \t joint 2  \t  joint 3  \t  joint 4 \t  joint 5 \t  joint 6 \n')
-%fprintf(fileId,'%2.4f\t %2.4f \t %2.4f\t %2.4f\t %2.4f\t %2.4f\n',T)  
-fprintf(fileId,'%5s %5s %5s,%5s %5s %5s %5s\r\n',M3); 
-fprintf(fileId,'\r\n');
-fprintf(fileId,'%s\r\n','-----------------------------------------------------------------------------------------------------------------');
-fprintf(fileId,'\n');
-for ii=1:size(Z,1)
-    fprintf(fileId,'%5.5f %5.5f %5.5f %5.5f %5.5f %5.5f %5.5f\r\n',Z(ii,:));
-end 
-
-
- fclose(fileId); 
- 
-        
- 
 
 
 % --- Executes export data to a file %%%%%%%%%%%%%%%%
@@ -750,47 +596,6 @@ end
 set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 
 
-
-function [jointStateMsg,time]=JointState(handles,data)
-
- theorTime=data.Header.Stamp.Sec+(data.Header.Stamp.Nsec)/10^9;
- A=[data.Goal.Trajectory.Points(:,1).Positions];
- k=size(A);
-
-jointState=rossubscriber('/joint_states');
-jointStateMsg=rosmessage(jointState);
-for i=1:k(2)
- jointStateMsg(i)=receive(jointState);
- time(i)=(jointStateMsg(i).Header.Stamp.Sec+(jointStateMsg(i).Header.Stamp.Nsec)/10^9)-theorTime;
- 
-end
-for i=1:k(2)
-    time(i)=time(i)-time(1);
-end
-
-
-
- 
-
- 
-function [diff]=CalculDiff(data,jointStateMsg,time)
-%global data; 
-%global jointStateMsg;
-array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
-time_theor=[array_time.Nsec]/10^9+[array_time.Sec];
-A=[data.Goal.Trajectory.Points(:,1).Positions];
-B=[jointStateMsg(1,:).Position];
-k=size(A);
-
-for i=1:6
-for j=1:k(2)
-    X = interp1(time,B(i,:),time_theor(j));
- 
- diff(i,j)=abs(A(i,j)-X);
- 
-end 
-end
- 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
