@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 29-Mar-2018 17:49:00
+% Last Modified by GUIDE v2.5 30-Mar-2018 12:10:15
 
 % Begin initialization code - DO NOT EDIT
 
@@ -224,6 +224,7 @@ global new_calibration_msg;
  
 global calibrate_motors_client; 
 global calibrate_motors_msg; 
+global Learning_mode_state; 
 
 global logs; 
 global jointState; 
@@ -258,6 +259,9 @@ if (connexion_state  == 0)
         
     learning_mode_req = rosmessage(learning_mode_client); % create message for  learning_mode_client
     disp('..............learning mode .......');
+    Learning_mode_state=rossubscriber('/niryo_one/learning_mode'); 
+    
+    
     logs=logs+ newline+  " Connect to Learning Mode service ";
     % calibrate Motors 
     new_calibration=rossvcclient('/niryo_one/request_new_calibration');
@@ -285,7 +289,7 @@ if (connexion_state  == 0)
    
       set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
    
-   
+   connexion_state =1; 
 else 
     logs=logs+ newline+ "you are already connected to your robot."
      disp('.............you are already connected to your robot ...................')
@@ -312,45 +316,105 @@ else
 end 
 
 
-% --- Executes on button press in moveButton.
-function moveButton_Callback(hObject, eventdata, handles)
-global connexion_state ; 
-global logs; 
-% global new_data;
-% global data ; 
-% global theor_trajectory;
-% global jointStateMsg;
-% global time; 
-if (connexion_state==0)
-     logs=logs+newline+"you should connect to you robot first"; 
-    return; 
-else 
- 
-move_joint_sub=rossubscriber('/niryo_one_matlab/result') ;
- move_joint_pub=rospublisher('/niryo_one_matlab/command');
- move_joint_msg=rosmessage(move_joint_pub);
-set(handles.moveButton,'string','Move Joints .....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-%  % Move Joints 
 
-joint1=str2double(get(handles.joint1,'String'));
+ function [validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles) 
+     global logs; 
+     global Learning_mode_state; 
+        joint1=str2double(get(handles.joint1,'String'));
 joint2=str2double(get(handles.joint2,'String'));
 joint3=str2double(get(handles.joint3,'String'));
 joint4=str2double(get(handles.joint4,'String'));
 joint5=str2double(get(handles.joint5,'String'));
+joint5=str2double(get(handles.joint5,'String'));
 joint6=str2double(get(handles.joint6,'String'));
+validation=0;
+Learning_mode_state_msg=receive( Learning_mode_state); 
+if (Learning_mode_state_msg.Data==1)
+    set(handles.edit56,'string','you need to desactivate Learning Mode','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(1);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return ; 
+elseif (joint1>3.054)||(joint1<-3.054)
+    set(handles.joint1,'string',0); 
+    set(handles.edit56,'string','joint 1 not in range(-3.054,3.054)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(1);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return;
+elseif(joint1>0.628319)||(joint1<-1.5707)
+    set(handles.joint2,'string',0); 
+    set(handles.edit56,'string','joint 2 not in range(-1.5707,0.628319)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(1);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return;
+elseif (joint3>0.994838)||(joint3<-1.4101)
+    set(handles.joint3,'string',0); 
+    set(handles.edit56,'string','joint 3 not in range(-1.4101,0.994838)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(1);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return;
+
+elseif(joint4>2.61799)||(joint4<-2.61799)
+    set(handles.joint4,'string',0); 
+    set(handles.edit56,'string','joint 4not in range(-2.61799,2.61799)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(0.5);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return;
+
+
+elseif(joint5>2.26893)||(joint5<-2.26893)
+    set(handles.joint5,'string',0); 
+    set(handles.edit56,'string','joint 5 not in range(-2.26893,2.26893)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(0.5);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+     return;
+
+
+elseif (joint6>2.57)||(joint6<-2.57)
+    set(handles.joint6,'string',0); 
+    set(handles.edit56,'string','joint 6 not in range(-2.57,2.57)','visible','on','BackgroundColor','red','ForegroundColor','white')
+    pause(0.5);
+    set(handles.edit56,'visible','off','BackgroundColor','green','ForegroundColor','white');
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+   return;
+else disp("joints in range") ;
+  logs=logs+newline+"Joints in range";
+ validation=1; 
+end
+
+
+% --- Executes on button press in moveButton.
+function moveButton_Callback(hObject, eventdata, handles)
+global connexion_state ; 
+global logs;  
+if (connexion_state==0)
+     logs=logs+newline+"you should connect to you robot first"; 
+    return; 
+else 
+[validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles) ;
+if validation==0
+    return ; 
+else 
+    
+ move_joint_sub=rossubscriber('/niryo_one_matlab/result') ;
+ move_joint_pub=rospublisher('/niryo_one_matlab/command');
+  set(handles.moveButton,'string','Move Joints .....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+ move_joint_msg=rosmessage(move_joint_pub);
+
 move_joint_msg.CmdType=1; 
 move_joint_msg.Joints=[joint1,joint2,joint3,joint4,joint5,joint6];
 send(move_joint_pub,move_joint_msg);
-move_joint_sub_msg=receive(move_joint_sub);
-set(handles.edit56,'string',move_joint_sub_msg.Message,'visible','on')
-pause(1)
-set(handles.edit56,'visible','off')
- logs=logs+ newline+ move_joint_sub_msg.Message ;
- set(handles.moveButton,'string','Move Joints ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+
+
+ set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
  plotButton_Callback(hObject, eventdata, handles)
-%trajectoryButton_Callback(hObject, eventdata, handles)
 end 
- 
+end  
         
      % --- Executes on button press in learningModeButton.
 function learningModeButton_Callback(hObject, eventdata, handles)
@@ -358,11 +422,14 @@ global learning_mode_client;
 global learning_mode_req ;
 global logs; 
 global connexion_state ; 
+global Learning_mode_state;
 if (connexion_state==0)
     logs=logs+newline+"you should connect to you robot first" 
     return; 
 else 
- if (learning_mode_req.Value==1)
+    Learning_mode_state_msg=receive(Learning_mode_state);
+    set(handles.learningModeButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+ if (Learning_mode_state_msg.Data==1)
      learning_mode_req.Value=0;
      learning_mode_resp = call(learning_mode_client,learning_mode_req,'Timeout',3);
      disp(learning_mode_resp.Message);
@@ -373,6 +440,7 @@ else
       disp(learning_mode_resp.Message);
        logs=logs+ newline+ learning_mode_resp.Message;
  end
+ set(handles.learningModeButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 set(handles.edit56,'string',learning_mode_resp.Message,'visible','on')
 pause(1)
 set(handles.edit56,'visible','off')
@@ -388,12 +456,14 @@ if connexion_state==0
    logs=logs+newline+"you should connect to you robot first" 
    return; 
 else 
+  set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
  motor_calibration_resp = call(calibrate_motors_client,calibrate_motors_msg);
  disp( motor_calibration_resp.Message);
  logs=logs+ newline + motor_calibration_resp.Message;
  set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
 pause(1)
 set(handles.edit56,'visible','off')
+set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 end 
 
  
@@ -409,12 +479,14 @@ if connexion_state==0
    logs=logs+newline+"you should connect to you robot first" 
    return;
 else 
+   set(handles.newCalibrationButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
  new_calibration_resp = call(new_calibration,new_calibration_msg);
  disp('.......new calibration requested.........');
 set(handles.edit56,'string',new_calibration_resp.Message,'visible','on')
 pause(1)
 set(handles.edit56,'visible','off')
  logs=logs+ newline+new_calibration_resp.Message;
+ set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
  %disp(new_calibration_resp.Message)
 end 
     
@@ -518,12 +590,12 @@ if connexion_state==0
    logs=logs+newline+"you should connect to you robot first" 
    return;
 else 
-set(handles.pushbutton26,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+set(handles.trajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
  data=receive(theor_trajectory);
 logs= logs+newline+"get a new trajectory";
 [jointStateMsg,time]=JointState(handles,data);
 logs= logs+newline+"get real trajectory";
-set(handles.pushbutton26,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+set(handles.trajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
 end
 
@@ -531,7 +603,7 @@ end
 
 
 
-% --- Executes get theroical trajectory 
+% --- Executes get trajectory 
 function pushbutton26_Callback(hObject, eventdata, handles)
 global new_data;
 global data ; 
@@ -544,13 +616,17 @@ if connexion_state==0
    logs=logs+newline+"you should connect to you robot first" 
    return;
 else 
+ 
 set(handles.pushbutton26,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
- data=receive(theor_trajectory);
-logs= logs+newline+"get a new trajectory";
+ data=receive(theor_trajectory)
+  
+    
+logs= logs+newline+"get theoretical trajectory ";
 [jointStateMsg,time]=JointState(handles,data);
-logs= logs+newline+"get real trajectory";
+logs= logs+newline+" get real trajectory ";
 set(handles.pushbutton26,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
+ 
 end
 
 
@@ -1081,6 +1157,3 @@ function commandPanel_CreateFcn(hObject, eventdata, handles)
 function edit1_Callback(hObject, eventdata, handles)    
         
  function editlogs_Callback(hObject, eventdata, handles)  
-
-
-
