@@ -197,10 +197,10 @@ set(handles.logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.8
  logs=logs+ newline+'Get hardware status'
  set(handles.edit21,'string', hw_status_msg.RpiTemperature);
  set(handles.edit22,'string', hw_status_msg.CalibrationNeeded);
- %set(handles.edit20,'logical', hw_status_msg.CalibrationInProgress);
- %set(handles.edit23,'string', hw_status_msg.Temperatures);
- %set(handles.edit24,'string', hw_status_msg.HardwareErrors);
- set(handles.edit25,'string', hw_status_msg.Voltages);
+% set(handles.edit20,'string', hw_status_msg.CalibrationInProgress);
+ set(handles.edit23,'string', hw_status_msg.Temperatures);
+ set(handles.edit24,'string', hw_status_msg.HardwareErrors);
+ set(handles.edit25,'string',hw_status_msg.Voltages);
 % --- Executes on key press with focus on connectionButton and none of its controls.
 end 
 
@@ -312,11 +312,13 @@ set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','whit
 if (connexion_state==1)
 rosshutdown;
  connexion_state =0;
-  logs=logs+ newline+ "disconnect form niryo one";
+  logs=logs+ newline + "disconnect form niryo one";
  set(handles.connect,'string','Connect to Niryo One ')
   set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 else 
-    logs=logs+ newline+ "you are already disconnect form niryo one";
+    logs=logs+ newline + "you are already disconnect form niryo one";
+     set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+      set(handles.connect,'string','Connect to Niryo One ')
 
 end 
 
@@ -335,7 +337,7 @@ if (connexion_state==0)
      logs=logs+newline+"you should connect to you robot first"; 
     return; 
 else 
-[validation,joint1,joint2,joint3,joint4,joint5,joint6]=validate_joints(handles,Learning_mode_state,logs) ;
+[validation,joint]=validate_joints(handles,Learning_mode_state,logs) ;
 
 if validation==0
     return ; 
@@ -347,12 +349,12 @@ else
  move_joint_msg=rosmessage(move_joint_pub);
 
 move_joint_msg.CmdType=1; 
-move_joint_msg.Joints=[joint1,joint2,joint3,joint4,joint5,joint6];
+move_joint_msg.Joints=joint;
 send(move_joint_pub,move_joint_msg);
 
 
  set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
- plotButton_Callback(hObject, eventdata, handles)
+
 end 
 end  
         
@@ -568,7 +570,7 @@ logs= logs+newline+"get theoretical trajectory ";
 logs= logs+newline+" get real trajectory ";
 set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
- 
+ plotButton_Callback(hObject, eventdata, handles)
 end
 
 
