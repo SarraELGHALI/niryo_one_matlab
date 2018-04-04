@@ -287,7 +287,8 @@ function connect_Callback(hObject, eventdata, handles)
         
        % get trajectory  
        theor_trajectory=rossubscriber('/niryo_one_follow_joint_trajectory_controller/follow_joint_trajectory/goal') ;
-       jointState=rossubscriber('/joint_states','BufferSize',20);
+       
+       jointState=rossubscriber('/joint_states','BufferSize',40);
        
        
        % Matlab node subscirbers and publisher
@@ -416,26 +417,26 @@ function motorbutton_Callback(~, ~, handles)
 
 % --- Executes on button press in newCalibrationButton.
 function newCalibrationButton_Callback(hObject, eventdata,handles)
- global new_calibration ; 
-global new_calibration_msg ;
-global logs; 
-global connexion_state ; 
+    global new_calibration ; 
+    global new_calibration_msg ;
+    global logs; 
+    global connexion_state ; 
 
 
-if connexion_state==0
-   logs=logs+newline+"you should connect to you robot first" 
-   return;
-else 
-   set(handles.newCalibrationButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
- new_calibration_resp = call(new_calibration,new_calibration_msg); 
- disp('.......new calibration requested.........');
-set(handles.edit56,'string',new_calibration_resp.Message,'visible','on')
-pause(1)
-set(handles.edit56,'visible','off')
- logs=logs+ newline+new_calibration_resp.Message;
- set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
- %disp(new_calibration_resp.Message)
-end 
+    if connexion_state==0
+       logs=logs+newline+"you should connect to you robot first" 
+       return;
+    end 
+    set(handles.newCalibrationButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    new_calibration_resp = call(new_calibration,new_calibration_msg); 
+    disp('.......new calibration requested.........');
+    set(handles.edit56,'string',new_calibration_resp.Message,'visible','on')
+    pause(1)
+    set(handles.edit56,'visible','off')
+    logs=logs+ newline+new_calibration_resp.Message;
+    set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+
+
     
   % choose joint graph %%%%%%%%%%%%%%%%%%%%%%%%%%שששש  
 
@@ -460,22 +461,22 @@ function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
     switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
         case 'radiobutton7'
           %execute this code when fontsize08_radiobutton is selected
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,1)
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,1,-3.1,3.1)
         case 'radiobutton8'
           %joint2
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,2)
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,2,-1.7,1.7)
         case 'radiobutton9'
           %joint3
-           plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,3)
+           plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,3,-1.6,1.1)
     case 'radiobutton10'
           %joint4
-        plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,4)
+        plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,4,-2.8,2.8)
         case 'radiobutton11'
           % joint5
-         plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,5)
+         plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,5,-2.5,2.5)
         case 'radiobutton12'
          %joint6
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,6)
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,6,-2.8,2.8)
         otherwise
     end
   
@@ -483,25 +484,26 @@ function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
 % --- Executes on button press in trajectoryButton. 
 % on plot Panel 
 function trajectoryButton_Callback(hObject, eventdata, handles)
-global new_data;
+    global new_data_trajectory_received;
     global thero_trajectory_data ; 
     global logs; 
     global theor_trajectory;
     global jointStateMsg;
     global time; 
     global connexion_state ;
+    global jointState; 
     if connexion_state==0
        logs=logs+newline+"you should connect to you robot first" 
        return;
-    else 
+    end 
     set(handles.trajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
      thero_trajectory_data=receive(theor_trajectory);
     logs= logs+newline+"get a new trajectory";
-    [jointStateMsg,time]=JointState(handles,thero_trajectory_data);
+    [jointStateMsg,time]=get_JointState(handles,thero_trajectory_data,jointState)
     logs= logs+newline+"get real trajectory";
     set(handles.trajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
-    new_data=1;
-    end
+    new_data_trajectory_received=1;
+   
 
 
 
@@ -510,29 +512,29 @@ global new_data;
 % --- Executes get trajectory 
 % On command Panel 
 function getTrajectoryButton_Callback(hObject, eventdata, handles)
-global new_data;
-global thero_trajectory_data ; 
-global logs; 
-global theor_trajectory;
-global jointStateMsg;
-global time; 
-global connexion_state ;
-if connexion_state==0
-   logs=logs+newline+"you should connect to you robot first" 
-   return;
-else 
- 
-set(handles.getTrajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
- thero_trajectory_data=receive(theor_trajectory)
-  
-    
-logs= logs+newline+"get theoretical trajectory ";
-[jointStateMsg,time]=JointState(handles,thero_trajectory_data);
-logs= logs+newline+" get real trajectory ";
-set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
-new_data=1;
- plotButton_Callback(hObject, eventdata, handles)
-end
+    global new_data_trajectory_received;
+    global thero_trajectory_data ; 
+    global logs; 
+    global theor_trajectory;
+    global jointStateMsg;
+    global time; 
+    global connexion_state ;
+    global jointState; 
+    if connexion_state==0
+       logs=logs+newline+"you should connect to you robot first" 
+       return;
+    end
+    set(handles.getTrajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+     thero_trajectory_data=receive(theor_trajectory)
+
+
+    logs= logs+newline+"get theoretical trajectory ";
+    [jointStateMsg,time]=get_JointState(handles,thero_trajectory_data,jointState)
+    logs= logs+newline+" get real trajectory ";
+    set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    new_data_trajectory_received=1;
+     plotButton_Callback(hObject, eventdata, handles);
+
 
 
 
@@ -542,36 +544,34 @@ function exportbutton_Callback(hObject, eventdata, handles)
 % hObject    handle to exportbutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global new_data;
-global joint_position;
-global thero_trajectory_data;
-global logs ; 
-global time;
-global jointStateMsg;
-global connexion_state; 
-set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
-if((new_data==0)&&(connexion_state==0) )
-    set(handles.edit55,'string','try to get a new trajectory command ','visible','on');
-    pause(1);
-    set(handles.edit55,'visible','off') ;
-    set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
-else
+    global new_data_trajectory_received;
+    global joint_position;
+    global thero_trajectory_data;
+    global logs ; 
+    global time;
+    global jointStateMsg;
+    global connexion_state; 
+    set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+    if((new_data_trajectory_received==0)||(connexion_state==0))
+        set(handles.edit55,'string','try to get a new trajectory command ','visible','on');
+        pause(1);
+        set(handles.edit55,'visible','off') ;
+        set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+        return; 
+    end
     try 
- export_trajectory(time,jointStateMsg,thero_trajectory_data,joint_position);
+        export_trajectory(time,jointStateMsg,thero_trajectory_data,joint_position);
     catch e 
         logs= logs+ newline + "you should specify file name , try again";
         set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
         return; 
-    end 
-        
-  logs= logs + newline +"export trajectory " ;
-  
-set(handles.edit55,'string','data exported successfully','visible','on');
-pause(1);
-set(handles.edit55,'visible','off');
-new_data=0;
-end 
-set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    end
+    logs= logs + newline +"export trajectory " ;
+    set(handles.edit55,'string','data exported successfully','visible','on');
+    pause(1);
+    set(handles.edit55,'visible','off');
+    new_data_trajectory_received=0;
+    set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 
 
 
@@ -584,9 +584,9 @@ function edit56_CreateFcn(hObject, eventdata, handles)
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 % --- Executes during object creation, after setting all properties.
 function edit55_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit55 (see GCBO)
@@ -595,220 +595,133 @@ function edit55_CreateFcn(hObject, eventdata, handles)
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
          
   % --- Executes during object creation, after setting all properties.
 
 
 function edit20_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit20 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+  
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 function edit21_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit21 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 function edit22_CreateFcn(hObject, ~, handles)
-% hObject    handle to edit22 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
 function edit23_CreateFcn(hObject, ~, handles)
-% hObject    handle to edit23 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 function edit24_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit24 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 function edit25_CreateFcn(hObject, ~, ~)
-% hObject    handle to edit25 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 function edit26_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit20 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 % --- Executes during object creation, after setting all properties.
 function edit27_CreateFcn(hObject, ~, handles)
-% hObject    handle to edit21 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 % --- Executes during object creation, after setting all properties.
 function edit28_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit22 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
 % --- Executes during object creation, after setting all properties.
 function edit29_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit23 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 % --- Executes during object creation, after setting all properties.
 function edit30_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit30 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 % --- Executes during object creation, after setting all properties.
 function edit31_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit31 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 % --- Executes during object creation, after setting all properties.
 function editlogs_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to editlogs (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 % --- Executes during object creation, after setting all properties.
 function edit41_CreateFcn(hObject, eventdata, ~)
-% hObject    handle to edit41 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 % --- Executes during object creation, after setting all properties.
 function edit42_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit42 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
 function edit43_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit43 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
 
 function edit44_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit44 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
@@ -817,15 +730,10 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function edit45_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit45 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 
@@ -834,15 +742,10 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function edit46_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit46 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 function joint1_Callback(hObject, eventdata, handles)
    
