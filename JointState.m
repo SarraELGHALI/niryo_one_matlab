@@ -1,10 +1,10 @@
-function [jointStateMsg,time]=JointState(handles,data)
+function [jointStateMsg,time]=get_JointState(handles,data,jointState)
 
  theorTime=data.Header.Stamp.Sec+(data.Header.Stamp.Nsec)/10^9;
  A=[data.Goal.Trajectory.Points(:,1).Positions];
  k=size(A);
 
-jointState=rossubscriber('/joint_states');
+
 jointStateMsg=rosmessage(jointState);
 for i=1:k(2)
  jointStateMsg(i)=receive(jointState);
