@@ -439,113 +439,69 @@ end
     
   % choose joint graph %%%%%%%%%%%%%%%%%%%%%%%%%%שששש  
 
+          
+          
 function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
-global time; 
-global jointStateMsg; % joint State Message : real trajectory 
-global data ; %follow joint trajectory Goal message : thero trajectory 
-global joint_position; % follow joint trajectory Goal position : thero trajectory 
-global connexion_state ;
-if connexion_state==0
-
-logs=logs+newline+"you should connect to you robot first"; 
-   return;
-else 
-diff=CalculDiff(data,jointStateMsg,time)
-JointStatePosition=[jointStateMsg.Position];
-array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
-x=[array_time.Nsec]/10^9+[array_time.Sec];
-joint_position=[data.Goal.Trajectory.Points(:,1).Positions];
-switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
-    case 'radiobutton7'
-      %execute this code when fontsize08_radiobutton is selected
-      axes(handles.axestheorique);
-      plot(x,joint_position(1,:),'b',time,JointStatePosition(1,:),'--r');
-      xlabel('time')
-      ylabel('trajectory')
-      legend('theorical','real')
-      axes(handles.axesdiff);
-      plot(x,diff(1,:),'g');
-      
-    case 'radiobutton8'
-      %execute this code when fontsize12_radiobutton is selected
-       axes(handles.axestheorique);
-        plot(x,joint_position(2,:),'b',time,JointStatePosition(2,:),'--r');
-         xlabel('time')
-      ylabel('trajectory')
-         legend('theorical','real')
-      axes(handles.axesdiff);
-        plot(x,diff(2,:),'g');
-        
-    case 'radiobutton9'
-      %execute this
-       axes(handles.axestheorique);
-        plot(x,joint_position(3,:),'b',time,JointStatePosition(3,:),'--r');
-         xlabel('time')
-      ylabel('trajectory')
-         legend('theorical','real');
-        axes(handles.axesdiff);
-        plot(x,diff(3,:),'g');
-       
-case 'radiobutton10'
-      %execute this code when fontsize08_radiobutton is selected
-      axes(handles.axestheorique);
-        plot(x,joint_position(4,:),'b',time,JointStatePosition(4,:),'--r');
-         xlabel('time')
-      ylabel('trajectory')
-         legend('theorical','real');
-      axes(handles.axesdiff);
-        plot(x,diff(4,:),'g');
-        
-
-    case 'radiobutton11'
-      %execute this code when fontsize12_radiobutton is selected
-       axes(handles.axestheorique);
-        plot(x,joint_position(5,:),'b',time,JointStatePosition(5,:),'--r');
-         xlabel('time')
-      ylabel('trajectory')
-         legend('theorical','real')
-      axes(handles.axesdiff);
-        plot(x,diff(5,:),'g');
-     
-
-    case 'radiobutton12'
-      %execute this
-       axes(handles.axestheorique);
-        plot(x,joint_position(6,:),'b',time,JointStatePosition(6,:),'--r');
-         xlabel('time')
-      ylabel('trajectory')
-        legend('theorical','real')  
-      axes(handles.axesdiff);
-        plot(x,diff(6,:),'g')
-   
-    otherwise
-       % Code for when there is no match.
-
-end
-end 
+    global time; 
+    global jointStateMsg; % joint State Message : real trajectory 
+    global thero_trajectory_data ; %follow joint trajectory Goal message : thero trajectory 
+    global joint_position; % follow joint trajectory Goal position : thero trajectory 
+    global connexion_state ;
+    global logs;
+    if connexion_state==0
+    logs=logs+newline+"you should connect to you robot first"; 
+       return;
+    end 
+    diff=CalculDiff(thero_trajectory_data,jointStateMsg,time)
+    JointStatePosition=[jointStateMsg.Position];
+    array_time=[thero_trajectory_data.Goal.Trajectory.Points(:,1).TimeFromStart];
+    x=[array_time.Nsec]/10^9+[array_time.Sec];
+    joint_position=[thero_trajectory_data.Goal.Trajectory.Points(:,1).Positions];
+    switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
+        case 'radiobutton7'
+          %execute this code when fontsize08_radiobutton is selected
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,1)
+        case 'radiobutton8'
+          %joint2
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,2)
+        case 'radiobutton9'
+          %joint3
+           plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,3)
+    case 'radiobutton10'
+          %joint4
+        plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,4)
+        case 'radiobutton11'
+          % joint5
+         plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,5)
+        case 'radiobutton12'
+         %joint6
+          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,6)
+        otherwise
+    end
+  
 
 % --- Executes on button press in trajectoryButton. 
 % on plot Panel 
 function trajectoryButton_Callback(hObject, eventdata, handles)
 global new_data;
-global data ; 
-global logs; 
-global theor_trajectory;
-global jointStateMsg;
-global time; 
-global connexion_state ;
-if connexion_state==0
-   logs=logs+newline+"you should connect to you robot first" 
-   return;
-else 
-set(handles.trajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
- data=receive(theor_trajectory);
-logs= logs+newline+"get a new trajectory";
-[jointStateMsg,time]=JointState(handles,data);
-logs= logs+newline+"get real trajectory";
-set(handles.trajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
-new_data=1;
-end
+    global thero_trajectory_data ; 
+    global logs; 
+    global theor_trajectory;
+    global jointStateMsg;
+    global time; 
+    global connexion_state ;
+    if connexion_state==0
+       logs=logs+newline+"you should connect to you robot first" 
+       return;
+    else 
+    set(handles.trajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+     thero_trajectory_data=receive(theor_trajectory);
+    logs= logs+newline+"get a new trajectory";
+    [jointStateMsg,time]=JointState(handles,thero_trajectory_data);
+    logs= logs+newline+"get real trajectory";
+    set(handles.trajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    new_data=1;
+    end
 
 
 
@@ -555,7 +511,7 @@ end
 % On command Panel 
 function getTrajectoryButton_Callback(hObject, eventdata, handles)
 global new_data;
-global data ; 
+global thero_trajectory_data ; 
 global logs; 
 global theor_trajectory;
 global jointStateMsg;
@@ -567,11 +523,11 @@ if connexion_state==0
 else 
  
 set(handles.getTrajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
- data=receive(theor_trajectory)
+ thero_trajectory_data=receive(theor_trajectory)
   
     
 logs= logs+newline+"get theoretical trajectory ";
-[jointStateMsg,time]=JointState(handles,data);
+[jointStateMsg,time]=JointState(handles,thero_trajectory_data);
 logs= logs+newline+" get real trajectory ";
 set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 new_data=1;
@@ -588,7 +544,7 @@ function exportbutton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global new_data;
 global joint_position;
-global data;
+global thero_trajectory_data;
 global logs ; 
 global time;
 global jointStateMsg;
@@ -601,7 +557,7 @@ if((new_data==0)&&(connexion_state==0) )
     set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 else
     try 
- export_trajectory(time,jointStateMsg,data,joint_position);
+ export_trajectory(time,jointStateMsg,thero_trajectory_data,joint_position);
     catch e 
         logs= logs+ newline + "you should specify file name , try again";
         set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
