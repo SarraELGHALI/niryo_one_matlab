@@ -1,6 +1,6 @@
 
 function varargout = Matlab_Gui(varargin)
-% MATLAB_GUI MATLAB code for Matlab_Gui.fig
+ % MATLAB_GUI MATLAB code for Matlab_Gui.fig
 %      MATLAB_GUI, by itself, creates a new MATLAB_GUI or raises the existing
 %      singleton*.
 %
@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 30-Mar-2018 16:30:20
+% Last Modified by GUIDE v2.5 03-Apr-2018 14:18:10
 
 % Begin initialization code - DO NOT EDIT
 
@@ -55,27 +55,27 @@ function Matlab_Gui_OpeningFcn(hObject, ~, handles, varargin)
 % varargin   command line arguments to Matlab_Gui (see VARARGIN)
 
 % Choose default command line output for Matlab_Gui
-global connexion_state ; % indicate if the robot si connected
-global logs ; 
-logs='';
-rosshutdown; 
-connexion_state =0; 
-handles.output = hObject;
-handles.output = hObject;
+    global connexion_state ; % indicate if the robot si connected
+    global logs ; 
+    logs='';
+    rosshutdown; 
+    connexion_state =0; 
+    handles.output = hObject;
+    handles.output = hObject;
 
-% Update handles structure
-guidata(hObject, handles);
-set(handles.connect,'string','Connect to Niryo One')
-set(handles.connectionButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.connectionPanel,'visible','on')
-set(handles.commandPanel,'visible','off')
-set(handles.hwPanel,'visible','off')
-set(handles.logsPanel,'visible','off')
-set(handles.plotPanel,'visible','off')
+    % Update handles structure
+    guidata(hObject, handles);
+    set(handles.connect,'string','Connect to Niryo One')
+    set(handles.connectionButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','on')
+    set(handles.commandPanel,'visible','off')
+    set(handles.hwPanel,'visible','off')
+    set(handles.logsPanel,'visible','off')
+    set(handles.plotPanel,'visible','off')
 
 
     
@@ -91,24 +91,24 @@ function varargout = Matlab_Gui_OutputFcn(~, ~, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
-varargout{1} = handles.output;
-axes(handles.axes1);
-imshow('logo.png');
-axes(handles.axes2);
-imshow('Matlab_Logo.png');
+    varargout{1} = handles.output;
+    axes(handles.axes1);
+    imshow('logo.png');
+    axes(handles.axes2);
+    imshow('Matlab_Logo.png');
 
 % --- Executes on button press in connectionButton.
 function connectionButton_Callback(~, ~, handles)
-set(handles.connectionPanel,'visible','on')
-set(handles.commandPanel,'visible','off')
-set(handles.hwPanel,'visible','off')
-set(handles.logsPanel,'visible','off')
-set(handles.plotPanel,'visible','off')
-set(handles.connectionButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','on')
+    set(handles.commandPanel,'visible','off')
+    set(handles.hwPanel,'visible','off')
+    set(handles.logsPanel,'visible','off')
+    set(handles.plotPanel,'visible','off')
+    set(handles.connectionButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 
 
 % --- Executes on button press in commandButton.
@@ -116,17 +116,17 @@ function commandButton_Callback(hObject, ~, handles)
 % hObject    handle to commandButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-set(handles.connectionPanel,'visible','off')
-set(handles.commandPanel,'visible','on')
-set(handles.hwPanel,'visible','off')
-set(handles.logsPanel,'visible','off')
-set(handles.plotPanel,'visible','off')
-set(handles.edit56,'visible','off')
-set(handles.commandButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','off')
+    set(handles.commandPanel,'visible','on')
+    set(handles.hwPanel,'visible','off')
+    set(handles.logsPanel,'visible','off')
+    set(handles.plotPanel,'visible','off')
+    set(handles.edit56,'visible','off')
+    set(handles.commandButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 
 
 % --- Executes on button press in plotButton.
@@ -135,17 +135,17 @@ function plotButton_Callback(~, eventdata, handles)
 % hObject    handle to plotButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-set(handles.connectionPanel,'visible','off')
-set(handles.commandPanel,'visible','off')
-set(handles.hwPanel,'visible','on')
-set(handles.logsPanel,'visible','off')
-set(handles.plotPanel,'visible','on')
-set(handles.edit55,'visible','off')
-set(handles.plotButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','off')
+    set(handles.commandPanel,'visible','off')
+    set(handles.hwPanel,'visible','on')
+    set(handles.logsPanel,'visible','off')
+    set(handles.plotPanel,'visible','on')
+    set(handles.edit55,'visible','off')
+    set(handles.plotButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 %..........................................%
 
 
@@ -153,56 +153,56 @@ set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]
 
 % --- Executes on button press in logsButton.
 function logsButton_Callback(hObject, ~, handles)
-global logs; 
+    global logs; 
 % hObject    handle to logsButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-set(handles.connectionPanel,'visible','off')
-set(handles.commandPanel,'visible','off')
-set(handles.hwPanel,'visible','off')
-set(handles.logsPanel,'visible','on')
-set(handles.plotPanel,'visible','off')
-set(handles.logsButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.editlogs,'string',logs)
+    set(handles.connectionPanel,'visible','off')
+    set(handles.commandPanel,'visible','off')
+    set(handles.hwPanel,'visible','off')
+    set(handles.logsPanel,'visible','on')
+    set(handles.plotPanel,'visible','off')
+    set(handles.logsButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.editlogs,'string',logs)
 
 
 % --- Executes on button press in hwButton.
 function hwButton_Callback(hObject, eventdata, handles)
-global hw_status;
-global logs; 
-global connexion_state; 
-if connexion_state==0
-   logs=logs+newline+"you should connect to you robot first"; 
-   return;
-else 
-% hObject    handle to hwButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-set(handles.connectionPanel,'visible','off')
-set(handles.commandPanel,'visible','off')
-set(handles.hwPanel,'visible','on')
-set(handles.logsPanel,'visible','off')
-set(handles.plotPanel,'visible','off')
-set(handles.hwButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    global hw_status;
+    global logs; 
+    global connexion_state; 
+    if connexion_state==0
+       logs=logs+newline+"you should connect to you robot first"; 
+       return;
+    else 
+    % hObject    handle to hwButton (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    set(handles.connectionPanel,'visible','off')
+    set(handles.commandPanel,'visible','off')
+    set(handles.hwPanel,'visible','on')
+    set(handles.logsPanel,'visible','off')
+    set(handles.plotPanel,'visible','off')
+    set(handles.hwButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
 
- hw_status_msg=receive(hw_status,10); 
- logs=logs+ newline+'Get hardware status'
- set(handles.edit21,'string', hw_status_msg.RpiTemperature);
- set(handles.edit22,'string', hw_status_msg.CalibrationNeeded);
-% set(handles.edit20,'string', hw_status_msg.CalibrationInProgress);
- set(handles.edit23,'string', hw_status_msg.Temperatures);
- set(handles.edit24,'string', hw_status_msg.HardwareErrors);
- set(handles.edit25,'string',hw_status_msg.Voltages);
-% --- Executes on key press with focus on connectionButton and none of its controls.
-end 
+     hw_status_msg=receive(hw_status,10); 
+     logs=logs+ newline+'Get hardware status'
+     set(handles.edit21,'string', hw_status_msg.RpiTemperature);
+     set(handles.edit22,'string', hw_status_msg.CalibrationNeeded);
+    % set(handles.edit20,'string', hw_status_msg.CalibrationInProgress);
+     set(handles.edit23,'string', hw_status_msg.Temperatures);
+     set(handles.edit24,'string', hw_status_msg.HardwareErrors);
+     set(handles.edit25,'string',hw_status_msg.Voltages);
+    % --- Executes on key press with focus on connectionButton and none of its controls.
+    end 
 
 
 
@@ -212,201 +212,199 @@ end
 % --- Executes on button press in connect
 function connect_Callback(hObject, eventdata, handles)
 
-global state; 
-global connexion_state ;
-global hw_status;
-global learning_mode_client;
- global theor_trajectory;
-global learning_mode_req ;
-global new_calibration ; 
-global new_calibration_msg; 
- 
-global calibrate_motors_client; 
-global calibrate_motors_msg; 
-global Learning_mode_state; 
+    global state; 
+    global connexion_state ;
+    global hw_status;
+    global learning_mode_client;
+     global theor_trajectory;
+    global learning_mode_req ;
+    global new_calibration ; 
+    global new_calibration_msg; 
 
-global logs; 
-global jointState; 
-set(handles.moveButton,'string','Move Joints ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.disconnect,'string','Disconnect from Niryo One')
-logs='';
-state=0; 
-set(handles.connect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-if (connexion_state  == 0)
-    Robot_ip_adress = get(handles.edit1,'String'); % get robot ip adress 
-    Robot_ip_adress = strcat('http://',Robot_ip_adress,':11311');
-    Computer_ip_adress = get(handles.edit2,'String');% get computer ip adress
-    setenv('ROS_MASTER_URI',Robot_ip_adress); % set  ros matser URI to specifie the ros master location 
-    setenv('ROS_IP',Computer_ip_adress); % set environment variables ROS_IP( network address of a ROS Node ), It's must be ip adress of the pc where matlab is installed 
-try
-    rosinit; % initialize ROS
-catch e
-    logs= e.message
-    set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    return; 
-end 
-  
-    %pause(2);
-    logs="connected to niryo one";
-    % hardware status
-        try 
-        hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic
-        catch e 
-            logs= e.message
-            roshutdown
-            return; 
-        end 
-    
-    % learning mode 
-   
-    learning_mode_client=rossvcclient('/niryo_one/activate_learning_mode');% create a ros service client for activate learning mode 
-   
-        
-    learning_mode_req = rosmessage(learning_mode_client); % create message for  learning_mode_client
-    disp('..............learning mode .......');
-    Learning_mode_state=rossubscriber('/niryo_one/learning_mode'); 
-    
-    
-    logs=logs+ newline+  " Connect to Learning Mode service ";
-    % calibrate Motors 
-    new_calibration=rossvcclient('/niryo_one/request_new_calibration');
-    new_calibration_msg= rosmessage(new_calibration);
-    disp('..............create request new calibration message .......');
-    logs=logs +newline +"create request new calibration message .";
-   
-        
-    
-  
-    % calibrate motors%
-  
-    calibrate_motors_client=rossvcclient('/niryo_one/calibrate_motors');
-    calibrate_motors_msg=rosmessage(calibrate_motors_client);
-    disp('create calibrate maoters message');
-   logs=logs +newline +'create calibrate motors message ';
-    
-        
-    
-   
-   % get trajectory  
-   
- theor_trajectory=rossubscriber('/niryo_one_follow_joint_trajectory_controller/follow_joint_trajectory/goal') ;
-   jointState=rossubscriber('/joint_states','BufferSize',20)
-   
-      set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-   
-   connexion_state =1; 
-else 
-    logs=logs+ newline+ "you are already connected to your robot."
-     disp('.............you are already connected to your robot ...................')
+    global calibrate_motors_client; 
+    global calibrate_motors_msg; 
+    global Learning_mode_state; 
 
-end 
+    global logs; 
+    global jointState; 
+    set(handles.moveButton,'string','Move Joints ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.disconnect,'string','Disconnect from Niryo One')
+    logs='';
+    state=0; 
+    set(handles.connect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    if (connexion_state  == 0)
+        Robot_ip_adress = get(handles.edit1,'String'); % get robot ip adress 
+        Robot_ip_adress = strcat('http://',Robot_ip_adress,':11311');
+        Computer_ip_adress = get(handles.edit2,'String');% get computer ip adress
+        setenv('ROS_MASTER_URI',Robot_ip_adress); % set  ros matser URI to specifie the ros master location 
+        setenv('ROS_IP',Computer_ip_adress); % set environment variables ROS_IP( network address of a ROS Node ), It's must be ip adress of the pc where matlab is installed 
+    try
+        rosinit; % initialize ROS
+    catch e
+        logs= e.message
+        set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+        return; 
+    end 
+
+        %pause(2);
+        logs="connected to niryo one";
+        % hardware status
+            try 
+            hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic
+            catch e 
+                logs= e.message
+                rosshutdown
+                return; 
+            end 
+
+        % learning mode 
+
+        learning_mode_client=rossvcclient('/niryo_one/activate_learning_mode');% create a ros service client for activate learning mode 
+
+
+        learning_mode_req = rosmessage(learning_mode_client); % create message for  learning_mode_client
+        disp('..............learning mode .......');
+        Learning_mode_state=rossubscriber('/niryo_one/learning_mode'); 
+
+
+        logs=logs+ newline+  " Connect to Learning Mode service ";
+        % calibrate Motors 
+        new_calibration=rossvcclient('/niryo_one/request_new_calibration');
+        new_calibration_msg= rosmessage(new_calibration);
+        disp('..............create request new calibration message .......');
+        logs=logs +newline +"create request new calibration message .";
+
+
+
+
+        % calibrate motors%
+
+        calibrate_motors_client=rossvcclient('/niryo_one/calibrate_motors');
+        calibrate_motors_msg=rosmessage(calibrate_motors_client);
+        disp('create calibrate maoters message');
+       logs=logs +newline +'create calibrate motors message ';
+
+
+
+
+       % get trajectory  
+
+     theor_trajectory=rossubscriber('/niryo_one_follow_joint_trajectory_controller/follow_joint_trajectory/goal') ;
+       jointState=rossubscriber('/joint_states','BufferSize',20)
+
+          set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+
+       connexion_state =1; 
+    else 
+        logs=logs+ newline+ "you are already connected to your robot."
+         disp('.............you are already connected to your robot ...................')
+
+    end 
 
 
 
 % --- Executes on button press in disconnect.
 function disconnect_Callback(~, ~, handles)
-global connexion_state ; 
-global logs; 
+    global connexion_state ; 
+    global logs; 
 
-set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-if (connexion_state==1)
-rosshutdown;
- connexion_state =0;
-  logs=logs+ newline + "disconnect form niryo one";
- set(handles.connect,'string','Connect to Niryo One ')
-  set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-else 
-    logs=logs+ newline + "you are already disconnect form niryo one";
-     set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-      set(handles.connect,'string','Connect to Niryo One ')
+    set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    if (connexion_state==1)
+    rosshutdown;
+     connexion_state =0;
+      logs=logs+ newline + "disconnect form niryo one";
+     set(handles.connect,'string','Connect to Niryo One ')
+      set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    else 
+        logs=logs+ newline + "you are already disconnect form niryo one";
+         set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+          set(handles.connect,'string','Connect to Niryo One ')
 
-end 
-
-
-
- 
+    end 
 
 
-% --- Executes on button press in moveButton.
+
+
+
+
+    % --- Executes on button press in moveButton.
 function moveButton_Callback(hObject, eventdata, handles)
-global connexion_state ; 
-global logs; 
-global Learning_mode_state;
+    global connexion_state ; 
+    global logs; 
+    global Learning_mode_state;
 
-if (connexion_state==0)
-     logs=logs+newline+"you should connect to you robot first"; 
-    return; 
-else 
-[validation,joint]=validate_joints(handles,Learning_mode_state,logs) ;
+    if (connexion_state==0)
+         logs=logs+newline+"you should connect to you robot first"; 
+        return; 
+    else 
+    [validation,joint]=validate_joints(handles,Learning_mode_state,logs) ;
 
-if validation==0
-    return ; 
-else 
+    if validation==0
+        return ; 
+    else 
+
+     move_joint_sub=rossubscriber('/niryo_one_matlab/result') ;
+     move_joint_pub=rospublisher('/niryo_one_matlab/command');
+      set(handles.moveButton,'string','Move Joints .....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+     move_joint_msg=rosmessage(move_joint_pub);
+
+    move_joint_msg.CmdType=1; 
+    move_joint_msg.Joints=joint
+    send(move_joint_pub,move_joint_msg);
+    logs=logs+newline+"move jonit"
+    % msg=receive(move_joint_sub)
+    % logs=logs+newline+msg.Status
+     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+
+    end 
+    end
     
- move_joint_sub=rossubscriber('/niryo_one_matlab/result') ;
- move_joint_pub=rospublisher('/niryo_one_matlab/command');
-  set(handles.moveButton,'string','Move Joints .....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
- move_joint_msg=rosmessage(move_joint_pub);
 
-move_joint_msg.CmdType=1; 
-move_joint_msg.Joints=joint;
-send(move_joint_pub,move_joint_msg);
-
-
- set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-
-end 
-end  
         
-     % --- Executes on button press in learningModeButton.
+         % --- Executes on button press in learningModeButton.
 function learningModeButton_Callback(hObject, eventdata, handles)
-global learning_mode_client;
-global learning_mode_req ;
-global logs; 
-global connexion_state ; 
-global Learning_mode_state;
-if (connexion_state==0)
-    logs=logs+newline+"you should connect to you robot first" 
-    return; 
-else 
-    Learning_mode_state_msg=receive(Learning_mode_state);
-    set(handles.learningModeButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
- if (Learning_mode_state_msg.Data==1)
-     learning_mode_req.Value=0;
-     learning_mode_resp = call(learning_mode_client,learning_mode_req,'Timeout',3);
-     disp(learning_mode_resp.Message);
-     logs=logs+ newline+ learning_mode_resp.Message;
- else 
-     learning_mode_req.Value=1;
-     learning_mode_resp = call(learning_mode_client,learning_mode_req,'Timeout',3);
-      disp(learning_mode_resp.Message);
-       logs=logs+ newline+ learning_mode_resp.Message;
- end
- set(handles.learningModeButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-set(handles.edit56,'string',learning_mode_resp.Message,'visible','on')
-pause(1)
-set(handles.edit56,'visible','off')
-end 
+    global learning_mode_client;
+    global learning_mode_req ;
+    global logs; 
+    global connexion_state ; 
+    global Learning_mode_state;
+    if (connexion_state==0)
+        logs=logs+newline+"you should connect to you robot first" 
+        return; 
+    else 
+        Learning_mode_state_msg=receive(Learning_mode_state);
+        set(handles.learningModeButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+     if (Learning_mode_state_msg.Data==1)
+        
+          set_learningModeMsg(learning_mode_client,learning_mode_req,0,logs,handles) ;
+         
+     else 
+       set_learningModeMsg(learning_mode_client,learning_mode_req,1,logs,handles) ;
+         
+     end
+     set(handles.learningModeButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.edit56,'visible','off')
+    end 
 
-% --- Executes on button press in motorbutton.
+    % --- Executes on button press in motorbutton.
 function motorbutton_Callback(~, ~, handles)
- global calibrate_motors_msg;
-global calibrate_motors_client;
-global logs; 
-global connexion_state ; 
-if connexion_state==0
-   logs=logs+newline+"you should connect to you robot first" 
-   return; 
-else 
-  set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
- motor_calibration_resp = call(calibrate_motors_client,calibrate_motors_msg);
- disp( motor_calibration_resp.Message);
- logs=logs+ newline + motor_calibration_resp.Message;
- set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
-pause(1)
-set(handles.edit56,'visible','off')
-set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-end 
+    global calibrate_motors_msg;
+    global calibrate_motors_client;
+    global logs; 
+    global connexion_state ; 
+    if connexion_state==0
+       logs=logs+newline+"you should connect to you robot first" 
+       return; 
+    else 
+      set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+     motor_calibration_resp = call(calibrate_motors_client,calibrate_motors_msg);
+     disp( motor_calibration_resp.Message);
+     logs=logs+ newline + motor_calibration_resp.Message;
+     set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
+    pause(1)
+    set(handles.edit56,'visible','off')
+    set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    end 
 
  
 
@@ -979,3 +977,12 @@ function commandPanel_CreateFcn(hObject, eventdata, handles)
 function edit1_Callback(hObject, eventdata, handles)    
         
  function editlogs_Callback(hObject, eventdata, handles)  
+
+
+% --- Executes on button press in importButton.
+function importButton_Callback(hObject, eventdata, handles)
+% hObject    handle to importButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
