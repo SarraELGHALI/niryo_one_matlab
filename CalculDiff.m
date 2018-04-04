@@ -1,16 +1,20 @@
-function [diff]=CalculDiff(data,jointStateMsg,time)
+function [diff]=CalculDiff(thero_trajectory_data,jointStateMsg,time)
 
-array_time=[data.Goal.Trajectory.Points(:,1).TimeFromStart];
+array_time=[thero_trajectory_data.Goal.Trajectory.Points(:,1).TimeFromStart];
 time_theor=[array_time.Nsec]/10^9+[array_time.Sec];
-A=[data.Goal.Trajectory.Points(:,1).Positions];
+A=[thero_trajectory_data.Goal.Trajectory.Points(:,1).Positions];
 B=[jointStateMsg(1,:).Position];
-k=size(A);
-
+k=size(time);
+m=size(time_theor);
+if k(2)>m(2) 
+    l=m(2);
+else 
+    l=k(2);
+end 
 for i=1:6
-for j=1:k(2)
+for j=1:l
     X = interp1(time,B(i,:),time_theor(j));
- 
- diff(i,j)=abs(A(i,j)-X);
+    diff(i,j)=abs(A(i,j)-X);
  
 end 
 end
