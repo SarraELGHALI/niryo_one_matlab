@@ -28,13 +28,15 @@ function varargout = Matlab_Gui(varargin)
 % Begin initialization code - DO NOT EDIT
 
     gui_Singleton = 1;
+     
     gui_State = struct('gui_Name',       mfilename, ...
                        'gui_Singleton',  gui_Singleton, ...
                        'gui_OpeningFcn', @Matlab_Gui_OpeningFcn, ...
                        'gui_OutputFcn',  @Matlab_Gui_OutputFcn, ...
                        'gui_LayoutFcn',  [] , ...
                        'gui_Callback',   []);
-    if nargin && ischar(varargin{1})
+    
+                   if nargin && ischar(varargin{1})
         gui_State.gui_Callback = str2func(varargin{1});
     end
 
@@ -47,16 +49,14 @@ function varargout = Matlab_Gui(varargin)
 
 
 % --- Executes just before Matlab_Gui is made visible.
-function Matlab_Gui_OpeningFcn(hObject, ~, handles, varargin)
+function Matlab_Gui_OpeningFcn(hObject,eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to Matlab_Gui (see VARARGIN)
 
-% Choose default command line output for Matlab_Gui 
-    logs='';
-    handles.logs=logs;
+% Choose default command line output for Matlab_Gui    
     rosshutdown; 
     connexion_state =0; % indicate if the robot si connected
     handles.connexion_state=connexion_state;
@@ -77,22 +77,17 @@ function Matlab_Gui_OpeningFcn(hObject, ~, handles, varargin)
     set(handles.hwPanel,'visible','off')
     set(handles.logsPanel,'visible','off')
     set(handles.plotPanel,'visible','off')
-
-
-    
 % UIWAIT makes Matlab_Gui wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-
 % --- Outputs from this function are returned to the command line.
-function varargout = Matlab_Gui_OutputFcn(~, ~, handles) 
+function varargout = Matlab_Gui_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
-    varargout{1} = handles.output;
+varargout{1} = handles.output;
     axes(handles.axes1);
     imshow('logs/logo.png');
     axes(handles.axes2);
@@ -770,6 +765,7 @@ function joint3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+ 
 
 
 function joint1_CreateFcn(hObject, eventdata, handles)
@@ -777,6 +773,7 @@ function joint1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
 
 
 function joint2_CreateFcn(hObject, eventdata, handles)
@@ -827,6 +824,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+function edit1_Callback(hObject, eventdata, handles)
+
 
 function edit2_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
@@ -842,22 +841,15 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 function commandPanel_CreateFcn(hObject, eventdata, handles)
        
-function edit1_Callback(hObject, eventdata, handles)    
-        
- function editlogs_Callback(hObject, eventdata, handles)  
+
+function editlogs_Callback(hObject, eventdata, handles)  
 
 
 
 
 
 
-function motor1_Callback(hObject, eventdata, handles)
-% hObject    handle to motor1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of motor1 as text
-%        str2double(get(hObject,'String')) returns contents of motor1 as a double
 
 
 % --- Executes during object creation, after setting all properties.
@@ -873,13 +865,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-function t1_Callback(hObject, eventdata, handles)
-% hObject    handle to t1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of t1 as text
-%        str2double(get(hObject,'String')) returns contents of t1 as a double
 
 
 % --- Executes during object creation, after setting all properties.
@@ -896,16 +881,8 @@ end
 
 
 
-function v1_Callback(hObject, eventdata, handles)
-% hObject    handle to v1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of v1 as text
-%        str2double(get(hObject,'String')) returns contents of v1 as a double
 
 
-% --- Executes during object creation, after setting all properties.
 function v1_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to v1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -920,7 +897,7 @@ end
 
 
 
-% --- Executes on button press in checkbox1.
+% % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
  
 % hObject    handle to checkbox1 (see GCBO)
@@ -929,6 +906,5 @@ function checkbox1_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
 jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
-
 
 

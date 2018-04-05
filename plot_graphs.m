@@ -2,7 +2,12 @@
 
 function plot_graphs(handles,real_time,theor_time,diff_trajectory,thero_trajectory,realtrajectory,i,ymin,ymax)
     axes(handles.axestheorique);
-    plot(theor_time,thero_trajectory(i,:),'b',real_time,realtrajectory(i,:),'--r');
+    try
+        plot(theor_time,thero_trajectory(i,:),'b',real_time,realtrajectory(i,:),'--r');
+    catch e
+        disp("error try again ") 
+        return; 
+    end
     xlabel('time');
     ylabel('trajectory');
     legend('theorical','real');
