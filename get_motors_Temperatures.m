@@ -1,0 +1,9 @@
+function  get_motors_Temperatures(handles,hw_status_msg)
+     set(handles.t1,'string', hw_status_msg.Temperatures(1));
+     set(handles.t2,'string', hw_status_msg.Temperatures(2));
+     set(handles.t3,'string', hw_status_msg.Temperatures(3));
+     set(handles.t4,'string', hw_status_msg.Temperatures(4));
+     set(handles.t5,'string', hw_status_msg.Temperatures(5));
+     set(handles.t6,'string', hw_status_msg.Temperatures(6));
+     set(handles.t7,'string', hw_status_msg.Temperatures(7));
+     set(handles.t8,'string', hw_status_msg.Temperatures(8));
