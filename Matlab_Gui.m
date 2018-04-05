@@ -440,43 +440,42 @@ function newCalibrationButton_Callback(hObject, eventdata,handles)
     
   % choose joint graph %%%%%%%%%%%%%%%%%%%%%%%%%%שששש  
 
-          
-          
+
+               
 function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
+    global thero_trajectory;
+    global real_trajectory; 
+    global diff_trajectory;
+    global imported_data;
     global time; 
     global jointStateMsg; % joint State Message : real trajectory 
     global thero_trajectory_data ; %follow joint trajectory Goal message : thero trajectory 
-    global joint_position; % follow joint trajectory Goal position : thero trajectory 
     global connexion_state ;
     global logs;
     if connexion_state==0
     logs=logs+newline+"you should connect to you robot first"; 
        return;
     end 
-    diff=CalculDiff(thero_trajectory_data,jointStateMsg,time)
-    JointStatePosition=[jointStateMsg.Position];
-    array_time=[thero_trajectory_data.Goal.Trajectory.Points(:,1).TimeFromStart];
-    x=[array_time.Nsec]/10^9+[array_time.Sec];
-    joint_position=[thero_trajectory_data.Goal.Trajectory.Points(:,1).Positions];
+    [theor_time,thero_y,real_time,real_y,diff_y,imported_data]=Get_trajectories(thero_trajectory,real_trajectory,diff_trajectory,imported_data,time,jointStateMsg,thero_trajectory_data);
     switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
         case 'radiobutton7'
           %execute this code when fontsize08_radiobutton is selected
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,1,-3.1,3.1)
+          plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,1,-3.1,3.1);
         case 'radiobutton8'
           %joint2
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,2,-1.7,1.7)
+          plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,2,-1.7,1.7);
         case 'radiobutton9'
           %joint3
-           plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,3,-1.6,1.1)
+           plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,3,-1.6,1.1);
     case 'radiobutton10'
           %joint4
-        plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,4,-2.8,2.8)
+        plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,4,-2.8,2.8);
         case 'radiobutton11'
           % joint5
-         plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,5,-2.5,2.5)
+         plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,5,-2.5,2.5);
         case 'radiobutton12'
          %joint6
-          plot_graphs(handles,time,x,diff,joint_position,JointStatePosition,6,-2.8,2.8)
+          plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,6,-2.8,2.8);
         otherwise
     end
   
@@ -550,7 +549,8 @@ function exportbutton_Callback(hObject, eventdata, handles)
     global logs ; 
     global time;
     global jointStateMsg;
-    global connexion_state; 
+    global connexion_state;
+    joint_position=[thero_trajectory_data.Goal.Trajectory.Points(:,1).Positions];
     set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
     if((new_data_trajectory_received==0)||(connexion_state==0))
         set(handles.edit55,'string','try to get a new trajectory command ','visible','on');
@@ -850,5 +850,11 @@ function importButton_Callback(hObject, eventdata, handles)
 % hObject    handle to importButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global thero_trajectory;
+global real_trajectory; 
+global diff_trajectory;
+global imported_data;
+[thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
+imported_data=1; 
 
 
