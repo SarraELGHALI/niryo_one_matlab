@@ -12,10 +12,9 @@ function [diff]=CalculDiff(thero_trajectory_data,jointStateMsg,time)
         l=k(2);
     end 
     for i=1:6
-    for j=1:l
-        X = interp1(time,B(i,:),time_theor(j));
-        diff(i,j)=(A(i,j)-X);
-
-    end 
+        for j=1:l
+            X = interp1(time,B(i,:),time_theor(j));
+            diff(i,j)=(A(i,j)-X);
+        end
     end
  

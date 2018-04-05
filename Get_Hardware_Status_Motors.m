@@ -2,7 +2,7 @@
 function Get_Hardware_Status_Motors(handles,hw_status_msg)
     get_motors_Temperatures(handles,hw_status_msg); 
     get_motors_Voltages(handles,hw_status_msg);
-    get_motors_Voltages(handles,hw_status_msg);
+    get_motors_names(handles,hw_status_msg);
 
 function  get_motors_Temperatures(handles,hw_status_msg)
     sz=size(hw_status_msg.Temperatures);

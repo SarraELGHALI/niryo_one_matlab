@@ -421,7 +421,7 @@ function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
     global logs;
     if handles.connexion_state==0
         logs=logs+newline+"you should connect to you robot first"; 
-    return;
+        return;
     end 
     [theor_time,thero_y,real_time,real_y,diff_y,imported_data]=Get_trajectories(thero_trajectory,real_trajectory,diff_trajectory,imported_data,time,jointStateMsg,thero_trajectory_data);
    
@@ -542,19 +542,13 @@ function importButton_Callback(hObject, eventdata, handles)
 % hObject    handle to importButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    global thero_trajectory;
-    global real_trajectory; 
-    global diff_trajectory;
-    global imported_data;
-    try
-        set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
-        [thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
-        imported_data=1; 
-        set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
-        jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
-    catch e 
-        return; 
-    end 
+global thero_trajectory;
+global real_trajectory; 
+global diff_trajectory;
+global imported_data;
+[thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
+imported_data=1; 
+jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
