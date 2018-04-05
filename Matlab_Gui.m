@@ -93,9 +93,9 @@ function varargout = Matlab_Gui_OutputFcn(~, ~, handles)
 % Get default command line output from handles structure
     varargout{1} = handles.output;
     axes(handles.axes1);
-    imshow('logo.png');
+    imshow('logs/logo.png');
     axes(handles.axes2);
-    imshow('Matlab_Logo.png');
+    imshow('logs/Matlab_Logo.png');
 
 % --- Executes on button press in connectionButton.
 function connectionButton_Callback(~, ~, handles)
