@@ -1,0 +1,9 @@
+function  get_motors_Voltages(handles,hw_status_msg)
+     set(handles.v1,'string', hw_status_msg.Voltages(1));
+     set(handles.v2,'string', hw_status_msg.Voltages(2));
+     set(handles.v3,'string', hw_status_msg.Voltages(3));
+     set(handles.v4,'string', hw_status_msg.Voltages(4));
+     set(handles.v5,'string', hw_status_msg.Voltages(5));
+     set(handles.v6,'string', hw_status_msg.Voltages(6));
+     set(handles.v7,'string', hw_status_msg.Voltages(7));
+     set(handles.v8,'string', hw_status_msg.Voltages(8));
