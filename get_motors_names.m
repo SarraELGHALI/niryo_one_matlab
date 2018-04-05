@@ -1,9 +1,0 @@
-function  get_motors_names(handles,hw_status_msg)
-     set(handles.motor1,'string', hw_status_msg.MotorNames(1));
-     set(handles.motor2,'string', hw_status_msg.MotorNames(2));
-     set(handles.motor3,'string', hw_status_msg.MotorNames(3));
-     set(handles.motor4,'string', hw_status_msg.MotorNames(4));
-     set(handles.motor5,'string', hw_status_msg.MotorNames(5));
-     set(handles.motor6,'string', hw_status_msg.MotorNames(6));
-     set(handles.motor7,'string', hw_status_msg.MotorNames(7));
-     set(handles.motor8,'string', hw_status_msg.MotorNames(8));
