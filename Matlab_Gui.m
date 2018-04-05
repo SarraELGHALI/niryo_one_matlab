@@ -113,6 +113,8 @@ function connectionButton_Callback(~, ~, handles)
 
 % --- Executes on button press in commandButton.
 function commandButton_Callback(hObject, ~, handles)
+    global hw_status; 
+    global connexion_state ; 
 % hObject    handle to commandButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -127,6 +129,17 @@ function commandButton_Callback(hObject, ~, handles)
     set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
     set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
     set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+   if connexion_state ==0
+       return; 
+   end 
+    hw_status_msg=receive(hw_status,10); % get calibrationNeeded flag 
+    if hw_status_msg.CalibrationNeeded==0 
+       set(handles.motorbutton,'visible','off');
+       set(handles.newCalibrationButton,'visible','on');
+    else 
+        set(handles.motorbutton,'visible','on');
+        set(handles.newCalibrationButton,'visible','off');
+    end 
 
 
 % --- Executes on button press in plotButton.
@@ -319,15 +332,15 @@ function disconnect_Callback(~, ~, handles)
 
     set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
     if (connexion_state==1)
-    rosshutdown;
-     connexion_state =0;
-      logs=logs+ newline + "disconnect form niryo one";
-     set(handles.connect,'string','Connect to Niryo One ')
-      set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    else 
+        rosshutdown;
+        connexion_state =0;
+        logs=logs+ newline + "disconnect form niryo one";
+        set(handles.connect,'string','Connect to Niryo One ')
+        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    else
         logs=logs+ newline + "you are already disconnect form niryo one";
-         set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-          set(handles.connect,'string','Connect to Niryo One ')
+        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+        set(handles.connect,'string','Connect to Niryo One ')
 
     end 
 
@@ -387,33 +400,31 @@ function learningModeButton_Callback(hObject, eventdata, handles)
 
     % --- Executes on button press in motorbutton.
 function motorbutton_Callback(~, ~, handles)
-    global calibrate_motors_msg;
-    global calibrate_motors_client;
-    global logs; 
-    global connexion_state ; 
-    global hw_status;
-    if connexion_state==0
-       logs=logs+newline+"you should connect to you robot first" 
-       return; 
-    end 
-    hw_status_msg=receive(hw_status,10); % get calibrationNeeded flag 
-    set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-    % testif the calibrationNeeded is on or off 
-    if hw_status_msg.CalibrationNeeded==0
-        logs=logs+newline+"you should request a new calibration first" 
-        set(handles.edit56,'string',"you should request a new calibration first" ,'visible','on')
-        pause(1)
-        set(handles.edit56,'visible','off')
-    else
+        global calibrate_motors_msg;
+        global calibrate_motors_client;
+        global logs; 
+        global connexion_state ; 
+       
+        if connexion_state==0
+           logs=logs+newline+"you should connect to you robot first" 
+           return; 
+        end 
+
+        set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+        % testif the calibrationNeeded is on or off 
+
+
         motor_calibration_resp = call(calibrate_motors_client,calibrate_motors_msg); 
         disp( motor_calibration_resp.Message);
         logs=logs+ newline + motor_calibration_resp.Message;
-        set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
-        pause(1)
-        set(handles.edit56,'visible','off')
-    end 
-    set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-  
+            set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
+            pause(1)
+            set(handles.edit56,'visible','off')
+
+        set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+        set(handles.motorbutton,'visible','off');
+        set(handles.newCalibrationButton,'visible','on');
+
    
 
  
@@ -439,6 +450,8 @@ function newCalibrationButton_Callback(hObject, eventdata,handles)
     set(handles.edit56,'visible','off')
     logs=logs+ newline+new_calibration_resp.Message;
     set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.motorbutton,'visible','on');
+    set(handles.newCalibrationButton,'visible','off');
 
 
     
@@ -578,7 +591,17 @@ function exportbutton_Callback(hObject, eventdata, handles)
     new_data_trajectory_received=0;
     set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 
-
+% --- Executes on button press in importButton.
+function importButton_Callback(hObject, eventdata, handles)
+% hObject    handle to importButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global thero_trajectory;
+global real_trajectory; 
+global diff_trajectory;
+global imported_data;
+[thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
+imported_data=1; 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -850,17 +873,7 @@ function edit1_Callback(hObject, eventdata, handles)
  function editlogs_Callback(hObject, eventdata, handles)  
 
 
-% --- Executes on button press in importButton.
-function importButton_Callback(hObject, eventdata, handles)
-% hObject    handle to importButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global thero_trajectory;
-global real_trajectory; 
-global diff_trajectory;
-global imported_data;
-[thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
-imported_data=1; 
+
 
 
 
