@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 05-Apr-2018 12:03:52
+% Last Modified by GUIDE v2.5 05-Apr-2018 12:14:48
 
 % Begin initialization code - DO NOT EDIT
 
@@ -461,6 +461,7 @@ function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
        return;
     end 
     [theor_time,thero_y,real_time,real_y,diff_y,imported_data]=Get_trajectories(thero_trajectory,real_trajectory,diff_trajectory,imported_data,time,jointStateMsg,thero_trajectory_data);
+   
     switch get(eventdata.NewValue,'Tag')   % Get Tag of selected object
         case 'radiobutton7'
           %execute this code when fontsize08_radiobutton is selected
@@ -1412,3 +1413,12 @@ function v8_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in checkbox1.
+function checkbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox1

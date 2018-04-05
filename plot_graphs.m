@@ -6,5 +6,9 @@ ylabel('trajectory');
 legend('theorical','real');
 limits=[ymin,ymax];
 ylim(limits);
+if (get(handles.checkbox1, 'Value')==1)
+        diff_trajectory=abs(diff_trajectory);
+    end
+        
 axes(handles.axesdiff);
 plot(theor_time,diff_trajectory(i,:),'g');
