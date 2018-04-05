@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 03-Apr-2018 14:18:10
+% Last Modified by GUIDE v2.5 05-Apr-2018 11:42:35
 
 % Begin initialization code - DO NOT EDIT
 
@@ -200,9 +200,10 @@ function hwButton_Callback(hObject, eventdata, handles)
      set(handles.edit21,'string', hw_status_msg.RpiTemperature);
      set(handles.edit22,'string', hw_status_msg.CalibrationNeeded);
     % set(handles.edit20,'string', hw_status_msg.CalibrationInProgress);
-     set(handles.edit23,'string', hw_status_msg.Temperatures);
-     set(handles.edit24,'string', hw_status_msg.HardwareErrors);
-     set(handles.edit25,'string',hw_status_msg.Voltages);
+      get_motors_names(handles,hw_status_msg)
+%      set(handles.edit23,'string', hw_status_msg.Temperatures);
+%      set(handles.edit24,'string', hw_status_msg.HardwareErrors);
+%      set(handles.edit25,'string',hw_status_msg.Voltages);
     % --- Executes on key press with focus on connectionButton and none of its controls.
   
 
@@ -856,5 +857,190 @@ global diff_trajectory;
 global imported_data;
 [thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
 imported_data=1; 
+
+
+
+function motor1_Callback(hObject, eventdata, handles)
+% hObject    handle to motor1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor1 as text
+%        str2double(get(hObject,'String')) returns contents of motor1 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor2_Callback(hObject, eventdata, handles)
+% hObject    handle to motor2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor2 as text
+%        str2double(get(hObject,'String')) returns contents of motor2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor3_Callback(hObject, eventdata, handles)
+% hObject    handle to motor3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor3 as text
+%        str2double(get(hObject,'String')) returns contents of motor3 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor4_Callback(hObject, eventdata, handles)
+% hObject    handle to motor4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor4 as text
+%        str2double(get(hObject,'String')) returns contents of motor4 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor5_Callback(hObject, eventdata, handles)
+% hObject    handle to motor5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor5 as text
+%        str2double(get(hObject,'String')) returns contents of motor5 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor6_Callback(hObject, eventdata, handles)
+% hObject    handle to motor6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor6 as text
+%        str2double(get(hObject,'String')) returns contents of motor6 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor6_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor7_Callback(hObject, eventdata, handles)
+% hObject    handle to motor7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor7 as text
+%        str2double(get(hObject,'String')) returns contents of motor7 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor7_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function motor8_Callback(hObject, eventdata, handles)
+% hObject    handle to motor8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of motor8 as text
+%        str2double(get(hObject,'String')) returns contents of motor8 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function motor8_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to motor8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
 
 
