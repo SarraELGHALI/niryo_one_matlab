@@ -23,7 +23,7 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 05-Apr-2018 12:14:48
+% Last Modified by GUIDE v2.5 05-Apr-2018 16:48:17
 
 % Begin initialization code - DO NOT EDIT
 
@@ -556,6 +556,24 @@ function importButton_Callback(hObject, eventdata, handles)
         return; 
     end 
 
+    
+    % --- Executes on button press in set_current_button.
+function set_current_button_Callback(hObject, eventdata, handles)
+ jointStateMessage=receive(handles.jointState);
+ current_position=[jointStateMessage.Position];
+ set(handles.joint1,'string',current_position(1,:));
+ set(handles.joint2,'string',current_position(2,:));
+ set(handles.joint3,'string',current_position(3,:));
+ set(handles.joint4,'string',current_position(4,:));
+ set(handles.joint5,'string',current_position(5,:));
+ set(handles.joint6,'string',current_position(6,:));
+ 
+ 
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -911,3 +929,6 @@ function checkbox1_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
 jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
+
+
+
