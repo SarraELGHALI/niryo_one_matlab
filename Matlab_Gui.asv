@@ -1,4 +1,23 @@
 
+                                                                    %/////////////////////////////////////%
+                                                                    %  @project MATLAB-ROS Interface      %
+                                                                    %  @Niryo One          %
+                                                                    %  @filename Matlab_Gui  %
+                                                                    %/////////////////////////////////////%
+
+% Matlab_Gui.m
+%  Copyright (C) 2018 Niryo
+%  All rights reserved.
+% 
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
+% 
+%  You should have received a copy of the GNU General Public License
+%  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+% this fucntion is created by guide matlab % 
 function varargout = Matlab_Gui(varargin)
  % MATLAB_GUI MATLAB code for Matlab_Gui.fig
 %      MATLAB_GUI, by itself, creates a new MATLAB_GUI or raises the existing
@@ -23,18 +42,20 @@ function varargout = Matlab_Gui(varargin)
 
 % Edit the above text to modify the response to help Matlab_Gui
 
-% Last Modified by GUIDE v2.5 05-Apr-2018 12:14:48
+% Last Modified by GUIDE v2.5 06-Apr-2018 15:34:51
 
 % Begin initialization code - DO NOT EDIT
 
     gui_Singleton = 1;
+     
     gui_State = struct('gui_Name',       mfilename, ...
                        'gui_Singleton',  gui_Singleton, ...
                        'gui_OpeningFcn', @Matlab_Gui_OpeningFcn, ...
                        'gui_OutputFcn',  @Matlab_Gui_OutputFcn, ...
                        'gui_LayoutFcn',  [] , ...
                        'gui_Callback',   []);
-    if nargin && ischar(varargin{1})
+    
+                   if nargin && ischar(varargin{1})
         gui_State.gui_Callback = str2func(varargin{1});
     end
 
@@ -47,23 +68,25 @@ function varargout = Matlab_Gui(varargin)
 
 
 % --- Executes just before Matlab_Gui is made visible.
-function Matlab_Gui_OpeningFcn(hObject, ~, handles, varargin)
+function Matlab_Gui_OpeningFcn(hObject,eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to Matlab_Gui (see VARARGIN)
 
-% Choose default command line output for Matlab_Gui 
-    logs='';
-    handles.logs=logs;
-    rosshutdown; 
+% Choose default command line output for Matlab_Gui
+    
+    rosshutdown; % shutdown any ros node 
     connexion_state =0; % indicate if the robot si connected
     handles.connexion_state=connexion_state;
-    guidata(hObject,handles)
+    guidata(hObject,handles);
     handles.output = hObject;
     handles.output = hObject;
-
+    axes(handles.axes1);
+    imshow('logs/logo.png');
+    axes(handles.axes2);
+    imshow('logs/Matlab_Logo.png');
     % Update handles structure
     guidata(hObject, handles);
     set(handles.connect,'string','Connect to Niryo One')
@@ -77,26 +100,19 @@ function Matlab_Gui_OpeningFcn(hObject, ~, handles, varargin)
     set(handles.hwPanel,'visible','off')
     set(handles.logsPanel,'visible','off')
     set(handles.plotPanel,'visible','off')
-
-
-    
+ 
 % UIWAIT makes Matlab_Gui wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
-
-
 % --- Outputs from this function are returned to the command line.
-function varargout = Matlab_Gui_OutputFcn(~, ~, handles) 
+function varargout = Matlab_Gui_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
-    varargout{1} = handles.output;
-    axes(handles.axes1);
-    imshow('logs/logo.png');
-    axes(handles.axes2);
-    imshow('logs/Matlab_Logo.png');
+varargout{1} = handles.output;
+ 
 
 % --- Executes on button press in connectionButton.
 function connectionButton_Callback(~, ~, handles)
@@ -117,25 +133,28 @@ function commandButton_Callback(hObject, ~, handles)
 % hObject    handle to commandButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    set(handles.connectionPanel,'visible','off')
-    set(handles.commandPanel,'visible','on')
-    set(handles.hwPanel,'visible','off')
-    set(handles.logsPanel,'visible','off')
-    set(handles.plotPanel,'visible','off')
-    set(handles.edit56,'visible','off')
-    set(handles.commandButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','off');
+    set(handles.commandPanel,'visible','on');
+    set(handles.hwPanel,'visible','off');
+    set(handles.logsPanel,'visible','off');
+    set(handles.plotPanel,'visible','off');
+    set(handles.edit56,'visible','off');
+    set(handles.commandButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
    if handles.connexion_state ==0
        return; 
    end 
-  hw_status_msg=receive(handles.hw_status,10); % get calibrationNeeded flag 
-    if hw_status_msg.CalibrationNeeded==0 
+  hw_status_msg=receive(handles.hw_status,10);% receiv ehardware status msg 
+    if (hw_status_msg.CalibrationNeeded==0) && (hw_status_msg.CalibrationInProgress==false) % get calibrationNeeded flag 
        set(handles.motorbutton,'visible','off');
        set(handles.newCalibrationButton,'visible','on');
-    else 
+    elseif (hw_status_msg.CalibrationInProgress==true)
+        set(handles.motorbutton,'visible','off');
+       set(handles.newCalibrationButton,'visible','off');
+    elseif (hw_status_msg.CalibrationNeeded==1)&& (hw_status_msg.CalibrationInProgress==false)
         set(handles.motorbutton,'visible','on');
         set(handles.newCalibrationButton,'visible','off');
     end 
@@ -147,20 +166,17 @@ function plotButton_Callback(~, eventdata, handles)
 % hObject    handle to plotButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    set(handles.connectionPanel,'visible','off')
-    set(handles.commandPanel,'visible','off')
-    set(handles.hwPanel,'visible','on')
-    set(handles.logsPanel,'visible','off')
-    set(handles.plotPanel,'visible','on')
-    set(handles.edit55,'visible','off')
-    set(handles.plotButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-%..........................................%
-
-
+    set(handles.connectionPanel,'visible','off');
+    set(handles.commandPanel,'visible','off');
+    set(handles.hwPanel,'visible','on');
+    set(handles.logsPanel,'visible','off');
+    set(handles.plotPanel,'visible','on');
+    set(handles.edit55,'visible','off');
+    set(handles.plotButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles. logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.hwButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
 
 
 % --- Executes on button press in logsButton.
@@ -189,41 +205,41 @@ function hwButton_Callback(hObject, eventdata, handles)
     % test if the robot is connected 
     if handles.connexion_state==0
       logs=logs+newline+"you should connect to you robot first"; 
-       guidata(hObject,handles)
+       guidata(hObject,handles);
        return;
     end
     % hObject    handle to hwButton (see GCBO)
     % eventdata  reserved - to be defined in a future version of MATLAB
     % handles    structure with handles and user data (see GUIDATA)
-    set(handles.connectionPanel,'visible','off')
-    set(handles.commandPanel,'visible','off')
-    set(handles.hwPanel,'visible','on')
-    set(handles.logsPanel,'visible','off')
-    set(handles.plotPanel,'visible','off')
-    set(handles.hwButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
-    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.connectionPanel,'visible','off');
+    set(handles.commandPanel,'visible','off');
+    set(handles.hwPanel,'visible','on');
+    set(handles.logsPanel,'visible','off');
+    set(handles.plotPanel,'visible','off');
+    set(handles.hwButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+    set(handles.connectionButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.commandButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.plotButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.logsButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
     hw_status_msg=receive(handles.hw_status,10); 
-   logs=logs+ newline+ "Get hardware status"
+   logs=logs+ newline+ "Get hardware status";
     set(handles.edit21,'string', hw_status_msg.RpiTemperature);
     set(handles.edit22,'string', hw_status_msg.CalibrationNeeded);
     % set(handles.edit20,'string', hw_status_msg.CalibrationInProgress);
-    Get_Hardware_Status_Motors(handles,hw_status_msg);
-    guidata(hObject,handles)
-
-  
+    get_hardware_status_motors(handles,hw_status_msg);
+    guidata(hObject,handles);
 
 
-
-
+% button connect to niryo one % 
+% this function callback set matlab environemment , start a matlab node and
+% connect to master ( robot)% 
+% create subscribers, publishers and services for the application % 
 
 
 % --- Executes on button press in connect
 function connect_Callback(hObject, eventdata, handles)
     global logs; 
-    set(handles.moveButton,'string','Move Joints ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.moveButton,'string','2.Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
     set(handles.disconnect,'string','Disconnect from Niryo One');
     logs='';
     set(handles.connect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
@@ -237,10 +253,10 @@ function connect_Callback(hObject, eventdata, handles)
         rosinit; % initialize ROS
     catch e
         logs= e.message;
-        set(handles.connect,'string','connected ','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+       
         return; 
     end 
-
+        set(handles.connect,'string','Connecting....... ','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
         %pause(2);
         logs="connected to niryo one";
         % hardware status
@@ -248,8 +264,8 @@ function connect_Callback(hObject, eventdata, handles)
             hw_status=rossubscriber('/niryo_one/hardware_status'); %create a subscriber for  hardware statuts topic
             handles.hw_status=hw_status;
             catch e 
-                logs= e.message
-                rosshutdown
+                logs= e.message;
+                rosshutdown;
                 return; 
             end 
         % learning mode 
@@ -287,34 +303,30 @@ function connect_Callback(hObject, eventdata, handles)
       guidata(hObject, handles);
     else 
         logs=logs+ newline+ "you are already connected to your robot.";
-         disp('.............you are already connected to your robot ...................')
+         disp('.............you are already connected to your robot ...................');
 
     end 
-
 
 
 % --- Executes on button press in disconnect.
-function disconnect_Callback(~, ~, handles)
+function disconnect_Callback(hObject,~, handles)
     global logs; 
 
-    set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.disconnect,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
     if (handles.connexion_state==1)
         rosshutdown;
        handles.connexion_state =0;
-       guidata(hObject, handles);
+      
         logs=logs+ newline + "disconnect form niryo one";
-        set(handles.connect,'string','Connect to Niryo One ')
-        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+        set(handles.connect,'string','Connect to Niryo One ');
+        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
     else
         logs=logs+ newline + "you are already disconnect form niryo one";
-        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-        set(handles.connect,'string','Connect to Niryo One ')
+        set(handles.disconnect,'string','disconnected','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+        set(handles.connect,'string','Connect to Niryo One ');
 
     end 
-
-
-
-
+     guidata(hObject, handles);
 
 
     % --- Executes on button press in moveButton.
@@ -324,92 +336,89 @@ function moveButton_Callback(hObject, eventdata, handles)
    if (handles.connexion_state==0)
        logs=logs+newline+"you should connect to you robot first"; 
         return; 
-    end
+   end
+    set(handles.moveButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
     [validation,joint]=validate_joints(handles,handles.Learning_mode_state,logs) ;
 
     if validation==0
         return ; 
     end
-    set(handles.moveButton,'string','Move Joints .....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
     handles.move_joint_msg.CmdType=1; 
-    handles.move_joint_msg.Joints=joint
-    send(handles.move_joint_pub,handles.move_joint_msg);
-    logs=logs+newline+"move jonit"
-     set(handles.moveButton,'string','Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-
+    handles.move_joint_msg.Joints=joint;
     
-   
-         
+    send(handles.move_joint_pub,handles.move_joint_msg);
+    set(handles.moveButton,'string','Moving.....','BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+    logs=logs+newline+"move jonit";
+     set(handles.moveButton,'string','2.Move Joints','BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+
+      
          % --- Executes on button press in learningModeButton.
 function learningModeButton_Callback(hObject, eventdata, handles)
     global logs; 
     if (handles.connexion_state==0)
-        logs=logs+newline+"you should connect to you robot first" 
+        logs=logs+newline+"you should connect to you robot first" ;
         return; 
     end 
         Learning_mode_state_msg=receive(handles.Learning_mode_state);
-        set(handles.learningModeButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+        set(handles.learningModeButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
     if (Learning_mode_state_msg.Data==1)
-          set_learningModeMsg(handles.learning_mode_client,handles.learning_mode_req,0,logs,handles) ;     
+          set_learning_mode_msg(handles.learning_mode_client,handles.learning_mode_req,0,logs,handles) ;     
     else 
-       set_learningModeMsg(handles.learning_mode_client,handles.learning_mode_req,1,logs,handles) ;   
+       set_learning_mode_msg(handles.learning_mode_client,handles.learning_mode_req,1,logs,handles) ;   
     end
-    set(handles.learningModeButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
-    set(handles.edit56,'visible','off')
+    set(handles.learningModeButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    set(handles.edit56,'visible','off');
     
 
     % --- Executes on button press in motorbutton.
 function motorbutton_Callback(~, ~, handles)
         global logs; 
         if handles.connexion_state==0
-           logs=logs+newline+"you should connect to you robot first" 
+           logs=logs+newline+"you should connect to you robot first" ;
            return; 
         end 
 
-        set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+        set(handles.motorbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
         % testif the calibrationNeeded is on or off 
 
 
         motor_calibration_resp = call(handles.calibrate_motors_client,handles.calibrate_motors_msg); 
         disp( motor_calibration_resp.Message);
         logs=logs+ newline + motor_calibration_resp.Message;
-            set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on')
+            set(handles.edit56,'string',motor_calibration_resp.Message,'visible','on');
             pause(1)
-            set(handles.edit56,'visible','off')
-
-        set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+        set(handles.edit56,'visible','off');
+        set(handles.motorbutton,'visible','off');
+        set(handles.newCalibrationButton,'visible','off');
+        set(handles.motorbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+        hw_status_msg=receive(handles.hw_status) ;
+        while(hw_status_msg.CalibrationInProgress==true)
+            hw_status_msg=receive(handles.hw_status);
+        end 
         set(handles.motorbutton,'visible','off');
         set(handles.newCalibrationButton,'visible','on');
 
    
-
- 
-
-
 % --- Executes on button press in newCalibrationButton.
 function newCalibrationButton_Callback(hObject, eventdata,handles)
     global logs; 
     if handles.connexion_state==0
-       logs=logs+newline+"you should connect to you robot first" 
+       logs=logs+newline+"you should connect to you robot first" ;
        return;
     end 
-    set(handles.newCalibrationButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white')
+    set(handles.newCalibrationButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
     new_calibration_resp = call(handles.new_calibration,handles.new_calibration_msg); 
     disp('.......new calibration requested.........');
-    set(handles.edit56,'string',new_calibration_resp.Message,'visible','on')
-    pause(1)
-    set(handles.edit56,'visible','off')
+    set(handles.edit56,'string',new_calibration_resp.Message,'visible','on');
+    pause(0.5);
+    set(handles.edit56,'visible','off');
     logs=logs+ newline+new_calibration_resp.Message;
-    set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89])
+    set(handles.newCalibrationButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+    
     set(handles.motorbutton,'visible','on');
     set(handles.newCalibrationButton,'visible','off');
-
-
-    
-  % choose joint graph %%%%%%%%%%%%%%%%%%%%%%%%%%שששש  
-
-
-               
+ 
+  % choose joint graph %%%%%%     
 function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
     global thero_trajectory;
     global real_trajectory; 
@@ -421,33 +430,39 @@ function jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
     global logs;
     if handles.connexion_state==0
         logs=logs+newline+"you should connect to you robot first"; 
-        return;
+    return;
     end 
-    [theor_time,thero_y,real_time,real_y,diff_y,imported_data]=Get_trajectories(thero_trajectory,real_trajectory,diff_trajectory,imported_data,time,jointStateMsg,thero_trajectory_data);
+    [theor_time,thero_y,real_time,real_y,diff_y,imported_data]=get_trajectories(thero_trajectory,real_trajectory,diff_trajectory,imported_data,time,jointStateMsg,thero_trajectory_data);
    
+   
+   handles.theor_time=theor_time;
+   handles.thero_y=thero_y;
+   handles.real_time=real_time;
+   handles.real_y=real_y;
+   handles.diff_y=diff_y;
     switch get(get(handles.jointGroup,'SelectedObject'),'Tag')   % Get Tag of selected object
         case 'radiobutton7'
           %execute this code when fontsize08_radiobutton is selected
-          plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,1,-3.1,3.1);
+          plot_graphs(handles,handles.real_time,handles.theor_time, handles.diff_y,handles.thero_y,handles.real_y,1,-3.1,3.1);
         case 'radiobutton8'
           %joint2
           plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,2,-1.7,1.7);
         case 'radiobutton9'
           %joint3
-           plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,3,-1.6,1.1);
+           plot_graphs(handles,handles.real_time,handles.theor_time,handles.diff_y,handles.thero_y,handles.real_y,3,-1.6,1.1);
     case 'radiobutton10'
           %joint4
-        plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,4,-2.8,2.8);
+        plot_graphs(handles,handles.real_time,handles.theor_time,handles.diff_y,handles.thero_y,handles.real_y,4,-2.8,2.8);
         case 'radiobutton11'
           % joint5
-         plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,5,-2.5,2.5);
+         plot_graphs(handles,handles.real_time,handles.theor_time,handles.diff_y,handles.thero_y,handles.real_y,5,-2.5,2.5);
         case 'radiobutton12'
          %joint6
-          plot_graphs(handles,real_time,theor_time,diff_y,thero_y,real_y,6,-2.8,2.8);
+          plot_graphs(handles,handles.real_time,handles.theor_time,handles.diff_y,handles.thero_y,handles.real_y,6,-2.8,2.8);
         otherwise
     end
+    guidata(hObject, handles);
   
-
 % --- Executes on button press in trajectoryButton. 
 % on plot Panel 
 function trajectoryButton_Callback(hObject, eventdata, handles)
@@ -458,21 +473,17 @@ function trajectoryButton_Callback(hObject, eventdata, handles)
     global jointStateMsg;
     global time; 
     if handles.connexion_state==0
-       logs=logs+newline+"you should connect to you robot first" 
+       logs=logs+newline+"you should connect to you robot first" ;
        return;
     end 
     set(handles.trajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
      thero_trajectory_data=receive(handles.theor_trajectory_sub);
     logs= logs+newline+"get a new trajectory";
-    [jointStateMsg,time]=get_JointState(handles,thero_trajectory_data,handles.jointState)
+    [jointStateMsg,time]=get_joint_state(handles,thero_trajectory_data,handles.jointState);
     logs= logs+newline+"get real trajectory";
     set(handles.trajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
     new_data_trajectory_received=1;
     jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
-   
-
-
-
 
 
 % --- Executes get trajectory 
@@ -484,24 +495,20 @@ function getTrajectoryButton_Callback(hObject, eventdata, handles)
     global jointStateMsg;
     global time;
     if handles.connexion_state==0
-       logs=logs+newline+"you should connect to you robot first" 
+       logs=logs+newline+"you should connect to you robot first" ;
        return;
     end
     set(handles.getTrajectoryButton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
-     thero_trajectory_data=receive(handles.theor_trajectory_sub)
+     thero_trajectory_data=receive(handles.theor_trajectory_sub);
 
 
     logs= logs+newline+"get theoretical trajectory ";
-    [jointStateMsg,time]=get_JointState(handles,thero_trajectory_data,handles.jointState)
+    [jointStateMsg,time]=get_joint_state(handles,thero_trajectory_data,handles.jointState);
     logs= logs+newline+" get real trajectory ";
     set(handles.getTrajectoryButton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
     new_data_trajectory_received=1;
      plotButton_Callback(hObject, eventdata, handles);
      jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
-
-
-
-
 
 % --- Executes export data to a file %%%%%%%%%%%%%%%%
 function exportbutton_Callback(hObject, eventdata, handles)
@@ -542,366 +549,110 @@ function importButton_Callback(hObject, eventdata, handles)
 % hObject    handle to importButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global thero_trajectory;
-global real_trajectory; 
-global diff_trajectory;
-global imported_data;
-[thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory()
-imported_data=1; 
-jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
+    global thero_trajectory;
+    global real_trajectory; 
+    global diff_trajectory;
+    global imported_data;
+    try
+        set(handles.exportbutton,'BackgroundColor',[0.1,0.67,0.89],'ForegroundColor','white');
+        [thero_trajectory,real_trajectory,diff_trajectory]=import_trajectory();
+        imported_data=1; 
+        set(handles.exportbutton,'BackgroundColor','white','ForegroundColor',[0.1,0.67,0.89]);
+        jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
+    catch e 
+        return; 
+    end 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-function edit56_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit56 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-% --- Executes during object creation, after setting all properties.
-function edit55_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit55 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-         
-  % --- Executes during object creation, after setting all properties.
-
-
-function edit20_CreateFcn(hObject, eventdata, handles)
-  
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-function edit21_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-function edit22_CreateFcn(hObject, ~, handles)
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-function edit23_CreateFcn(hObject, ~, handles)
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-function edit24_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-function edit25_CreateFcn(hObject, ~, ~)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-function edit26_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-% --- Executes during object creation, after setting all properties.
-function edit27_CreateFcn(hObject, ~, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-% --- Executes during object creation, after setting all properties.
-function edit28_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-% --- Executes during object creation, after setting all properties.
-function edit29_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-% --- Executes during object creation, after setting all properties.
-function edit30_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-% --- Executes during object creation, after setting all properties.
-function edit31_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-% --- Executes during object creation, after setting all properties.
-function editlogs_CreateFcn(hObject, eventdata, handles)
     
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-% --- Executes during object creation, after setting all properties.
-function edit41_CreateFcn(hObject, eventdata, ~)
-    
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-% --- Executes during object creation, after setting all properties.
-function edit42_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-function edit43_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-
-function edit44_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-
-
-
-% --- Executes during object creation, after setting all properties.
-function edit45_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-
-
-
-
-
-% --- Executes during object creation, after setting all properties.
-function edit46_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-function joint1_Callback(hObject, eventdata, handles)
-   
-function joint2_Callback(hObject, eventdata, handles)
-
-function joint4_Callback(hObject, eventdata, handles)
-function joint5_Callback(hObject, eventdata, handles)
-function joint6_Callback(hObject, eventdata, handles)
-
-
-function joint3_Callback(hObject, eventdata, handles)
-% hObject    handle to joint3 (see GCBO)
+    % --- Executes on button press in set_current_button.
+function set_current_button_Callback(hObject, eventdata, handles)
+ jointStateMessage=receive(handles.jointState);
+ current_position=[jointStateMessage.Position];
+ set(handles.joint1,'string',current_position(1,:));
+ set(handles.joint2,'string',current_position(2,:));
+ set(handles.joint3,'string',current_position(3,:));
+ set(handles.joint4,'string',current_position(4,:));
+ set(handles.joint5,'string',current_position(5,:));
+ set(handles.joint6,'string',current_position(6,:));
+ 
+ 
+function figurebutton_Callback(hObject, eventdata, handles)
+% hObject    handle to figurebutton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+ %jointGroup_SelectionChangedFcn(hObject, eventdata, handles)
+    try 
+        switch get(get(handles.jointGroup,'SelectedObject'),'Tag')   % Get Tag of selected object
 
+        %joint1
+            case 'radiobutton7'
+                i=1;
+                figure('Name','Joint 1 ')
+                plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+                xlabel('time');
+                ylabel('trajectory');
+                legend('theorical','real');
+                grid on 
+               title('joint1 trajectory')
+              %joint2
+            case 'radiobutton8'
+                i=2;
+                 figure('Name','Joint 2  ')
+                plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+                xlabel('time');
+                ylabel('trajectory');
+                legend('theorical','real');
+                grid on 
+                title('joint 2 trajectory')
+        %joint3    
+            case 'radiobutton9'
+                i=3;
+               figure('Name','Joint 3 ')
+                plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+                xlabel('time');
+                ylabel('trajectory');
+                legend('theorical','real');
+                grid on 
+                title('joint 4 trajectory')
+                %joint4
+            case 'radiobutton10'
+                i=4;
+               figure('Name','Joint 4 ')
+              plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+              xlabel('time');
+              ylabel('trajectory');
+              legend('theorical','real');
+              grid on 
+              title('joint 4 trajectory')
+            case 'radiobutton11'
+              % joint5
+              i=5;
 
-% --- Executes during object creation, after setting all properties.
-function joint3_CreateFcn(hObject, eventdata, handles)
+              figure('Name','Joint 5')
+              plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+              xlabel('time');
+              ylabel('trajectory');
+              legend('theorical','real');
+              grid on 
+              title('joint 5 trajectory')
+                  %joint6
+            case 'radiobutton12'
+                i=6;
+                 figure('Name','Joint 6 ')
+                plot(handles.real_time,handles.real_y(i,:),'b',handles.theor_time,handles.thero_y(i,:),'--r');
+                xlabel('time');
+                ylabel('trajectory');
+                legend('theorical','real');
+                grid on 
+                title('joint 6 trajectory');
+            otherwise
+        end
+    catch e 
+        disp("there is no data to plot")
+    end
 
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function joint1_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function joint2_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-    
-
-function joint4_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function joint5_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-
-function joint6_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-% --- Executes during object creation, after setting all properties.
-function commandButton_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to commandButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-function connectionButton_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to commandButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-function edit1_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function edit2_Callback(hObject, eventdata, handles)
-% --- Executes during object creation, after setting all properties.
-function edit2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-function commandPanel_CreateFcn(hObject, eventdata, handles)
-       
-function edit1_Callback(hObject, eventdata, handles)    
-        
- function editlogs_Callback(hObject, eventdata, handles)  
-
-
-
-
-
-
-function motor1_Callback(hObject, eventdata, handles)
-% hObject    handle to motor1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of motor1 as text
-%        str2double(get(hObject,'String')) returns contents of motor1 as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function motor1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to motor1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-function t1_Callback(hObject, eventdata, handles)
-% hObject    handle to t1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of t1 as text
-%        str2double(get(hObject,'String')) returns contents of t1 as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function t1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to t1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function v1_Callback(hObject, eventdata, handles)
-% hObject    handle to v1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of v1 as text
-%        str2double(get(hObject,'String')) returns contents of v1 as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function v1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to v1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-
-% --- Executes on button press in checkbox1.
+% % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
  
-% hObject    handle to checkbox1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
 
-% Hint: get(hObject,'Value') returns toggle state of checkbox1
-jointGroup_SelectionChangedFcn(hObject, eventdata, handles)

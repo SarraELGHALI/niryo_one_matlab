@@ -1,10 +1,28 @@
-% get Motors Temperatures to dispay it in hardawre panel 
-function Get_Hardware_Status_Motors(handles,hw_status_msg)
-    get_motors_Temperatures(handles,hw_status_msg); 
-    get_motors_Voltages(handles,hw_status_msg);
-    get_motors_names(handles,hw_status_msg);
+%get_hardware_status_motors.m
+%  Copyright (C) 2018 Niryo
+%  All rights reserved.
+% 
+%  This program is distributed in the hope that it will be useful,
+%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%  GNU General Public License for more details.
+% 
+%  You should have received a copy of the GNU General Public License
+%  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function  get_motors_Temperatures(handles,hw_status_msg)
+
+
+
+
+ 
+function get_hardware_status_motors(handles,hw_status_msg)
+    get_motors_temperatures(handles,hw_status_msg); 
+    get_motors_voltages(handles,hw_status_msg);
+    get_motors_names(handles,hw_status_msg);
+    
+    
+% get Motors Temperatures to dispay it in hardawre panel
+function  get_motors_temperatures(handles,hw_status_msg)
     sz=size(hw_status_msg.Temperatures);
     Temperatures= "";
     i=1;
@@ -17,7 +35,7 @@ function  get_motors_Temperatures(handles,hw_status_msg)
     
     % get Voltages hardware staute function
 
-function  get_motors_Voltages(handles,hw_status_msg)
+function  get_motors_voltages(handles,hw_status_msg)
      sz=size(hw_status_msg.Voltages);
      Voltages= "";
      i=1;
