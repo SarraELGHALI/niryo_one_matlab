@@ -666,4 +666,4 @@ function figurebutton_Callback(~, eventdata, handles)
 % % --- Executes on button press in checkbox1.
 function checkbox1_Callback(hObject, eventdata, handles)
  
-jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
+    jointGroup_SelectionChangedFcn(hObject, eventdata, handles);
