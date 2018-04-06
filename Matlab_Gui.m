@@ -86,9 +86,9 @@ function Matlab_Gui_OpeningFcn(hObject,eventdata, handles, varargin)
     handles.output = hObject;
     handles.output = hObject;
     axes(handles.axes1);
-    imshow('logs/logo.png');
+    imshow('images/logo.png');
     axes(handles.axes2);
-    imshow('logs/Matlab_Logo.png');
+    imshow('images/Matlab_Logo.png');
     % Update handles structure
     guidata(hObject, handles);
     set(handles.connect,'string','Connect to Niryo One')
