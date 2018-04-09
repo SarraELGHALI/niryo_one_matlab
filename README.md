@@ -142,27 +142,27 @@ open niryo One Studio and follow the steps to connect Niryo one to the wifi netw
  This will bring up the start  screen
 
 ![connexion window](./screenshoot/connxion_window.JPG)
-<<<<<<< HEAD
+
 
 5. Put your <ROBOTIP> in the first text box( it’s the same ip address you used to configure connection between robot and matlab-ros). 
 =======
-5. Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
+6. Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
 >>>>>>> bd0f7ceea64f465bc0f02597cf6cf29bd2fd45a8
 Put your <WINDOWSPCIP>  in the second text file ( the same you used in section 2.1.3) 
 Click connect to Niryo one button to connect Matlab  to your robot . wait few seconds until the connection is established. 
 When the button turned to connected you can start commanding your robot. 
-6. Go to arm Command button 
+7. Go to arm Command button 
 
 ![command window](./screenshoot/commandwindow1.JPG)
 
 - You can use Learning Mode button to activate /disactivate learning mode 
 - You can use calibrate Motors button to start calibrating motors.
-7. You can send command to your robot : 
+8. You can send command to your robot : 
  - Enter joints value and click Move joints ,you must see you robot move to the following command.
 
 ![command window ](./screenshoot/commandwindow2.JPG)
 
-8. In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
+9. In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
 The application  will work for a few second before presenting you the results of trajectories on plot trajectory window.
 Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a curve graph of the planned ,the real trajectory and the difference between them.
 
@@ -170,14 +170,14 @@ Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a 
 
 If you want to export result, click export button , choose a location and a name of your text file. the trajectory will be saved in both a text and an excel file.
 
-![export] (export.JPG)
+![export] (./screenshoot/export.JPG)
 
-9. You can import a saved trajectory data by clicking on import button and choosing an excel file.
-10. Click Hardware Status button to get updated hardware status.
+10. You can import a saved trajectory data by clicking on import button and choosing an excel file.
+11. Click Hardware Status button to get updated hardware status.
 
 ![hw status](./screenshoot/hwstatus.JPG)
 
-11.  Click application logs button to see your history activities. 
+12.  Click application logs button to see your history activities. 
 
 ![application logs](./screenshoot/applicationlogs.JPG)
 
