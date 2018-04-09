@@ -126,7 +126,7 @@ Restart your computer
 For more information:[RosNetworkSetup] (http://wiki.ros.org/ROS/NetworkSetup)
 on **matlab window** command
   
-> !ping <ROBOTIP>
+> !ping ROBOTIP
 
  ```
 Pinging <ROBOTIP> with 32 bytes of data: 
@@ -137,8 +137,10 @@ Reply from<ROBOTIP>: bytes=32 time=4ms TTL=64
  ```
 - On MATLAB command window , set the environment variables for ROS:
 
->setenv('ROS_MASTER_URI','<ROBOTIP>:11311')
->setenv('ROS_IP','<WINDOWSPCIP>')
+>setenv('ROS_MASTER_URI','ROBOTIP:11311')
+
+>setenv('ROS_IP','WINDOWSPCIP')
+
 >rosinit
 
 
