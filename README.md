@@ -48,6 +48,7 @@ You can follow this [tutorial](https://fr.mathworks.com/help/robotics/ug/create-
 
 **In Ubnutu**, If you already install Niryo One ROS packages on your computer, you just have to note the folder path.
 In **MATLAB** command window run:
+
 >folderpath = <your_folder_path>;
 >rosgenmsg(folderpath)
 
@@ -80,11 +81,7 @@ niryo_one_msgs/GetSequenceListRequest
 niryo_one_msgs/GetSequenceListResponse
 niryo_one_msgs/HardwareStatus
 niryo_one_msgs/JoystickJointsAction
-<<<<<<< HEAD
 ...........................
-=======
-.
->>>>>>> bd0f7ceea64f465bc0f02597cf6cf29bd2fd45a8
 ```
 
 ######1.2.3 Connect ROS-MATLAB to ROS robot as a master
@@ -132,10 +129,10 @@ rosinit
 ### 2.Download the application 
 First download or clone the application file form [here] ( )
 ### 3.Getting started with the application 
-1. For your first connection : 
+- For your first connection : 
 open niryo One Studio and follow the steps to connect Niryo one to the wifi network in order to connect your computer and your robot to the same network.
-2. Open Matlab_Gui file
-3. Click run 
+- Open Matlab_Gui file
+- Click run 
 
 ![run](./screenshoot/run.JPG)
 
@@ -144,40 +141,39 @@ open niryo One Studio and follow the steps to connect Niryo one to the wifi netw
 ![connexion window](./screenshoot/connxion_window.JPG)
 
 
-5. Put your <ROBOTIP> in the first text box( it’s the same ip address you used to configure connection between robot and matlab-ros). 
-=======
-6. Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
->>>>>>> bd0f7ceea64f465bc0f02597cf6cf29bd2fd45a8
+- Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
+
+- Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
 Put your <WINDOWSPCIP>  in the second text file ( the same you used in section 2.1.3) 
 Click connect to Niryo one button to connect Matlab  to your robot . wait few seconds until the connection is established. 
 When the button turned to connected you can start commanding your robot. 
-7. Go to arm Command button 
+- Go to arm Command button 
 
 ![command window](./screenshoot/commandwindow1.JPG)
 
-- You can use Learning Mode button to activate /disactivate learning mode 
-- You can use calibrate Motors button to start calibrating motors.
-8. You can send command to your robot : 
+     You can use Learning Mode button to activate /disactivate learning mode 
+     You can use calibrate Motors button to start calibrating motors.
+ - You can send command to your robot : 
  - Enter joints value and click Move joints ,you must see you robot move to the following command.
 
 ![command window ](./screenshoot/commandwindow2.JPG)
 
-9. In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
+- In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
 The application  will work for a few second before presenting you the results of trajectories on plot trajectory window.
 Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a curve graph of the planned ,the real trajectory and the difference between them.
 
 ![plot trajectory] (./screenshoot/plottrajectry.JPG)
 
-If you want to export result, click export button , choose a location and a name of your text file. the trajectory will be saved in both a text and an excel file.
+- If you want to export result, click export button , choose a location and a name of your text file. the trajectory will be saved in both a text and an excel file.
 
 ![export] (./screenshoot/export.JPG)
 
-10. You can import a saved trajectory data by clicking on import button and choosing an excel file.
-11. Click Hardware Status button to get updated hardware status.
+-  You can import a saved trajectory data by clicking on import button and choosing an excel file.
+-  Click Hardware Status button to get updated hardware status.
 
 ![hw status](./screenshoot/hwstatus.JPG)
 
-12.  Click application logs button to see your history activities. 
+-   Click application logs button to see your history activities. 
 
 ![application logs](./screenshoot/applicationlogs.JPG)
 
