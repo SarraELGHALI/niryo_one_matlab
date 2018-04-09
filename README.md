@@ -49,8 +49,11 @@ You can follow this [tutorial](https://fr.mathworks.com/help/robotics/ug/create-
 **In Ubnutu**, If you already install Niryo One ROS packages on your computer, you just have to note the folder path.
 In **MATLAB** command window run:
 
->folderpath = <your_folder_path>;
+
+>folderpath = your_folder_path
+
 >rosgenmsg(folderpath)
+
 
 Follow steps 1 to 3 from the output of rosgenmsg: 
 - Edit javaclasspath.txt, add the following file locations as new lines, and save the file:
@@ -64,10 +67,15 @@ Follow steps 1 to 3 from the output of rosgenmsg:
 <your_folder_path>\matlab_gen\jar\niryo_one_user_interface-1.1.0.jar
 ```
 - Add the custom message folder to the MATLAB path by executing:
-> addpath('<your_folder_path>')
+
+> addpath('your_folder_path')
+
 >savepath
+
 - Restart MATLAB and verify that you can use the custom messages. Type 
+
 >rosmsg list
+
  Ensure that the output contains the generated custom message types.
 ```
 niryo_one_msgs/CloseGripperRequest
@@ -84,34 +92,42 @@ niryo_one_msgs/JoystickJointsAction
 ...........................
 ```
 
-######1.2.3 Connect ROS-MATLAB to ROS robot as a master
-1. Find the name of your hostname 
+###### 1.2.3 Connect ROS-MATLAB to ROS robot as a master
+- Find the name of your hostname 
 **In windows**, open cmd window and tap hostname e.g.<WINDOWSPC>) 
 **In Raspberry Pi**, tap  hostname -I (e.g. <ROBOTPC>) 
 
-2.Look for IP_ address of robot and matlab computer, they should had the same mask 255.255.255.0
+-Look for IP_ address of robot and matlab computer, they should had the same mask 255.255.255.0
 e.g. 
 ```
 192.168.65.82 %  <ROBOTIP>
 192.168.65.80 % <WINDOWSPCIP>
 ```
-3. Edit file C:\Windows\system32\drivers\etc\hosts **in windows**  and  /etc/hosts ** in Raspberry Pi** by adding those two lines : 
+- Edit file C:\Windows\system32\drivers\etc\hosts **in windows**  and  /etc/hosts ** in Raspberry Pi** by adding those two lines : 
+
 ``` 
 192.168.65.82	 <ROBOTPC>
 192.168.65.80	<WINDOWSPC>
 ```
+
 Restart your computer 
-4.  Turn off all the firewalls on Mtalab PC and Ubuntu PC
-5. Set environment variables on your robot 
- ``` 
+
+-  Turn off all the firewalls on Mtalab PC and Ubuntu PC
+
+- Set environment variables on your robot 
+ 
+``` 
   export ROS_MASTER_URI=http://<ROBOTIP>:11311
   export ROS_IP=  <ROBOTIP>
   ``` 
-Restart your robot 
-6. try to ping both windows and the robot
+ Restart your robot 
+
+-  try to ping both windows pc and the robot
 For more information:[RosNetworkSetup] (http://wiki.ros.org/ROS/NetworkSetup)
-on **matlab window** command  
+on **matlab window** command
+  
 > !ping <ROBOTIP>
+
  ```
 Pinging <ROBOTIP> with 32 bytes of data: 
 Reply from <ROBOTIP>: bytes=32 time=6ms TTL=64 
@@ -119,12 +135,14 @@ Reply from <ROBOTIP>: bytes=32 time=4ms TTL=64
 Reply from <ROBOTIP>: bytes=32 time=4ms TTL=64 
 Reply from<ROBOTIP>: bytes=32 time=4ms TTL=64 
  ```
- 7. On Windows MATLAB, set the environment variables for ROS:
->setenv('ROS_MASTER_URI','<ROBOTIP>:11311')
-setenv('ROS_IP','<WINDOWSPCIP>')
-rosinit
+- On MATLAB command window , set the environment variables for ROS:
 
-*N.B. step 7 is not necessary , cause it s already in matlab code*
+>setenv('ROS_MASTER_URI','<ROBOTIP>:11311')
+>setenv('ROS_IP','<WINDOWSPCIP>')
+>rosinit
+
+
+*N.B. the last step is not necessary , cause it s already in matlab code*
 
 ### 2.Download the application 
 First download or clone the application file form [here] ( )
@@ -156,7 +174,7 @@ When the button turned to connected you can start commanding your robot.
  - You can send command to your robot : 
  - Enter joints value and click Move joints ,you must see you robot move to the following command.
 
-![command window ](./screenshoot/command.JPG)
+![command window ](./screenshoot/command.jpg)
 
 - In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
 The application  will work for a few second before presenting you the results of trajectories on plot trajectory window.
