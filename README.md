@@ -31,7 +31,7 @@ After finishing the installation , launch **MATLAB Command window**and  make sur
 
 ##### 1.2 Set up MATLAB environment 
 ###### 1.2.1  Install robotics System Toolbox 
-To install [Robotics System Toolbox](ttps://fr.mathworks.com/help/robotics/ug/install-robotics-system-toolbox-support-packages.html), Run this command in MATLA	B:
+To install [Robotics System Toolbox](ttps://fr.mathworks.com/help/robotics/ug/install-robotics-system-toolbox-support-packages.html), Run this command in **MATLAB** command window:
 
  
 >roboticsAddons
@@ -176,8 +176,7 @@ When the button turned to connected you can start commanding your robot.
 You can use Learning Mode button to activate /disactivate learning mode 
 You can use calibrate Motors button to start calibrating motors.
 
- - You can send command to your robot : 
- - Enter joints value and click Move joints ,you must see you robot move to the following command.
+ - You can send command to your robot: Enter joints value and click Move joints ,you must see you robot move to the following command.
 
 ![command window ](./screenshot/command.jpg)
 
@@ -200,5 +199,5 @@ Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a 
 
 ![application logs](./screenshot/applicationlogs.JPG)
 
-##### **If you find problems and need any help, please do not hesitate to contact contact us at (support@niryo.com).**
+##### **If you find problems and need any help, please do not hesitate to contact us at[support@niryo.com] (support@niryo.com).**
 **Thank you !**
