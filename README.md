@@ -52,7 +52,7 @@ In **MATLAB** command window run:
 >folderpath = <your_folder_path>;
 >rosgenmsg(folderpath)
 
-Follow steps 13 from the output of rosgenmsg: 
+Follow steps 1 to 3 from the output of rosgenmsg: 
 - Edit javaclasspath.txt, add the following file locations as new lines, and save the file:
 ```
 <your_folder_path>\jar\dynamixel_sdk-3.4.7.jar
@@ -156,13 +156,13 @@ When the button turned to connected you can start commanding your robot.
  - You can send command to your robot : 
  - Enter joints value and click Move joints ,you must see you robot move to the following command.
 
-![command window ](./screenshoot/commandwindow2.JPG)
+![command window ](./screenshoot/command.JPG)
 
 - In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
 The application  will work for a few second before presenting you the results of trajectories on plot trajectory window.
 Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a curve graph of the planned ,the real trajectory and the difference between them.
 
-![plot trajectory] (./screenshoot/plottrajectry.JPG)
+![plot trajectory] (./screenshoot/plot.JPG)
 
 - If you want to export result, click export button , choose a location and a name of your text file. the trajectory will be saved in both a text and an excel file.
 
