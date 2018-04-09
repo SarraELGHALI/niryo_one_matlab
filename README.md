@@ -1,13 +1,15 @@
 # **Niryo One - MATLAB interface**
 
 This repository has MATLAB code and functions to execute Niryo One - MATLAB interface.
-This interface connects Niryo-one to MATLAB in order to execute certain command:
+This interface connects Niryo-one to MATLAB to analyze differences between planned trajectory and executed trajectory.
+this project connect to[ niryo one ros](https://github.com/NiryoRobotics/niryo_one_ros)
+## list of Niryo One -MATLAB inetface functionality :  
 -	Activate/ Disactivate learning Mode. 
 -	Calibrate Motors .
 -	Request New Calibration.
 -	Send command to Niryo one.  
 -	Plot planned and executed trajectory. 
--	 Plot an Analyze differences between planned trajectory and executed trajectory.
+-	Plot differences between planned trajectory and executed trajectory.
 -	Export/import Data. 
 -	Get Hardware Status parameters.
 -	Display logs applications. 
@@ -17,13 +19,13 @@ This interface connects Niryo-one to MATLAB in order to execute certain command:
 MATLAB has several versions, If you dont have MATLAB installation file, try to get the newer version.The installer can be downloaded from here:  [MatlabDownload]( https://fr.mathworks.com/ ).
 *N.B. MathWorks provides the licensed product, a trial version and a student version.*
 
-![Matlab logo](./screenshoot/matlablogo.JPG)
+![Matlab logo](./screenshot/matlablogo.JPG)
 
 Install MATLAB in your  PC and make sure to select robotic toolbox while installation.
 
-![Matlab logo](./screenshoot/1.JPG)
+![Matlab logo](./screenshot/1.JPG)
 
-After finishing the installation , launch Command window and  make sure that  the Robotic toolbox is installed by running :  
+After finishing the installation , launch **MATLAB Command window**and  make sure that  the Robotic toolbox is installed by running :  
 
 >  rosinit
 
@@ -35,7 +37,7 @@ To install [Robotics System Toolbox](ttps://fr.mathworks.com/help/robotics/ug/in
 >roboticsAddons
   
 
-![Addons screenshoot](./screenshoot/2.JPG)
+![Addons screenshot](./screenshot/2.JPG)
 
 Then Choose Robotics System Toolbox Interface for ROS Custom Messages and click install. 
 
@@ -44,7 +46,7 @@ Then Choose Robotics System Toolbox Interface for ROS Custom Messages and click 
 ###### 1.2.1 Create Custom Messages from ROS Package 
 You can follow this [tutorial](https://fr.mathworks.com/help/robotics/ug/create-custom-messages-from-ros-package.html).
 
- **In windows** , clone [niryo one ros](https://github.com/NiryoRobotics/niryo_one_ros.git) and note the <folderpath>
+ **In windows** , clone [niryo one ros](https://github.com/NiryoRobotics/niryo_one_ros.git) and note the folderpath
 
 **In Ubnutu**, If you already install Niryo One ROS packages on your computer, you just have to note the folder path.
 In **MATLAB** command window run:
@@ -94,8 +96,8 @@ niryo_one_msgs/JoystickJointsAction
 
 ###### 1.2.3 Connect ROS-MATLAB to ROS robot as a master
 - Find the name of your hostname 
-**In windows**, open cmd window and tap hostname e.g.<WINDOWSPC>) 
-**In Raspberry Pi**, tap  hostname -I (e.g. <ROBOTPC>) 
+**In windows**, open cmd window and type hostname e.g. WINDOWSPC) 
+**In Raspberry Pi**, type  hostname -I (e.g. ROBOTPC) 
 
 -Look for IP_ address of robot and matlab computer, they should had the same mask 255.255.255.0
 e.g. 
@@ -154,11 +156,11 @@ open niryo One Studio and follow the steps to connect Niryo one to the wifi netw
 - Open Matlab_Gui file
 - Click run 
 
-![run](./screenshoot/run.JPG)
+![run](./screenshot/run.JPG)
 
  This will bring up the start  screen
 
-![connexion window](./screenshoot/connxion_window.JPG)
+![connexion window](./screenshot/connxion_window.JPG)
 
 
 - Put your <ROBOTIP> in the first text box( its the same ip address you used to configure connection between robot and matlab-ros). 
@@ -169,33 +171,34 @@ Click connect to Niryo one button to connect Matlab  to your robot . wait few se
 When the button turned to connected you can start commanding your robot. 
 - Go to arm Command button 
 
-![command window](./screenshoot/commandwindow1.JPG)
+![command window](./screenshot/commandwindow1.JPG)
 
-     You can use Learning Mode button to activate /disactivate learning mode 
-     You can use calibrate Motors button to start calibrating motors.
+You can use Learning Mode button to activate /disactivate learning mode 
+You can use calibrate Motors button to start calibrating motors.
+
  - You can send command to your robot : 
  - Enter joints value and click Move joints ,you must see you robot move to the following command.
 
-![command window ](./screenshoot/command.jpg)
+![command window ](./screenshot/command.jpg)
 
 - In order to compare the planned and the executed trajectory ,enter joints value, press listen to trajectory button first, and then press Move joints button.
 The application  will work for a few second before presenting you the results of trajectories on plot trajectory window.
 Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a curve graph of the planned ,the real trajectory and the difference between them.
 
-![plot trajectory] (./screenshoot/plot.JPG)
+![plot trajectory] (./screenshot/plot.JPG)
 
 - If you want to export result, click export button , choose a location and a name of your text file. the trajectory will be saved in both a text and an excel file.
 
-![export] (./screenshoot/export.JPG)
+![export] (./screenshot/export.JPG)
 
 -  You can import a saved trajectory data by clicking on import button and choosing an excel file.
 -  Click Hardware Status button to get updated hardware status.
 
-![hw status](./screenshoot/hwstatus.JPG)
+![hw status](./screenshot/hwstatus.JPG)
 
 -   Click application logs button to see your history activities. 
 
-![application logs](./screenshoot/applicationlogs.JPG)
+![application logs](./screenshot/applicationlogs.JPG)
 
-
-
+##### **If you find problems and need any help, please do not hesitate to contact contact us at (support@niryo.com).**
+**Thank you !**
