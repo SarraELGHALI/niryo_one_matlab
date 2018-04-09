@@ -199,5 +199,5 @@ Choose the joint ( form joint 1 to joint 6) you want to plot and you will see a 
 
 ![application logs](./screenshot/applicationlogs.JPG)
 
-##### **If you find problems and need any help, please do not hesitate to contact us at[support@niryo.com] (support@niryo.com).**
+##### **If you find problems and need any help, please do not hesitate to contact us at[support@niryo.com] (mailto:support@niryo.com).**
 **Thank you !**
