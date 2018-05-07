@@ -17,6 +17,7 @@ this project connect to[ niryo one ros](https://github.com/NiryoRobotics/niryo_o
 #### 1.Install and Configure MATLAB-Ros Environment
 ##### 1.1 Install MATLAB
 MATLAB has several versions, If you dont have MATLAB installation file, try to get the newer version.The installer can be downloaded from here:  [MatlabDownload]( https://fr.mathworks.com/ ).
+
 *N.B. MathWorks provides the licensed product, a trial version and a student version.*
 
 ![Matlab logo](./screenshot/matlablogo.JPG)
@@ -149,7 +150,7 @@ Reply from<ROBOTIP>: bytes=32 time=4ms TTL=64
 *N.B. the last step is not necessary , cause it s already in matlab code*
 
 ### 2.Download the application 
-First download or clone the application file form [here] ( )
+First download or clone the application file form [here] (https://github.com/NiryoRobotics/niryo_one_matlab.git)
 ### 3.Getting started with the application 
 - For your first connection : 
 open niryo One Studio and follow the steps to connect Niryo one to the wifi network in order to connect your computer and your robot to the same network.
